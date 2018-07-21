@@ -39,23 +39,23 @@
         shadowState = false;
 
         var rawInput = [
-            'BBC News',
-            '7/21/2017',
-            '6/1/2017',
-            'Facebook',
-            'One trillion social media posts',
-            'CTO',
-            'Chris Bingham',
-            'Crimson Hexagon',
-            'Cambridge Analytics',
-            'Zuckerberg testifies before Congress',
+            { id: 'BBC News' },
+            { id: '7/21/2017' },
+            { id: '6/1/2017' },
+            { id: 'Facebook' },
+            { id: 'One trillion social media posts' },
+            { id: 'CTO' },
+            { id: 'Chris Bingham' },
+            { id: 'Crimson Hexagon' },
+            { id: 'Cambridge Analytics' },
+            { id: 'Zuckerberg testifies before Congress' },
         ];
 
         var structuredData = {
         };
         // create an array with nodes
-        nodesArray = rawInput.map((text, index) => {
-            return {id: index, shape: 'box', label: text }
+        nodesArray = rawInput.map((record, index) => {
+            return {id: index, shape: 'box', label: record.id }
         });
 
         nodes = new vis.DataSet(nodesArray);
