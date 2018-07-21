@@ -38,7 +38,7 @@
         nodeIds = [2, 3, 4, 5];
         shadowState = false;
 
-        var rawInput = [
+        var records = [
             { id: 'BBC News' },
             { id: '7/21/2017' },
             { id: '6/1/2017' },
@@ -50,9 +50,10 @@
             { id: 'Cambridge Analytics' },
             { id: 'Zuckerberg testifies before Congress' },
         ];
+        var rawInput = records;
 
         // create an array with nodes
-        nodesArray = rawInput.map((record, _) => {
+        nodesArray = records.map((record, _) => {
             return { id: record.id, shape: 'box', label: record.id }
         });
 
