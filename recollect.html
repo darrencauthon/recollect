@@ -1,0 +1,163 @@
+<!--
+<script
+  src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+  crossorigin="anonymous"></script>
+
+<script src="vis.min.js" type="text/javascript"></script>
+<link href="vis.min.css" rel="stylesheet" type="text/css" media="all" />
+<input type="text" class="new-node" /><button class="add-node">Add Node</button>
+<div id="mynetwork"></div>
+<script src="recollect.js" type="text/javascript"></script>
+
+ -->
+
+
+<!doctype html>
+<html>
+<head>
+    <title>Network | Dynamic Data</title>
+
+    <script src="vis.min.js" type="text/javascript"></script>
+    <link href="vis.min.css" rel="stylesheet" type="text/css" media="all" />
+
+    <style type="text/css">
+        #mynetwork {
+            width: 600px;
+            height: 400px;
+            border: 1px solid lightgray;
+        }
+
+        p {
+            max-width:600px;
+        }
+
+        h4 {
+            margin-bottom:3px;
+        }
+    </style>
+</head>
+
+<p>
+    You can change any settings you want while the network is initialized using the vis Dataset, setOptions and setData. Finally you can destroy the network and completely reinitialize it.
+</p>
+
+<h4>DataSet (change the data while it's loaded and initialzed):</h4>
+<input type="button" onclick="addNode()" value="add node dynamically"> <br />
+<input type="button" onclick="changeNode1()" value="change node 1's color dynamically"> <br />
+<input type="button" onclick="removeRandomNode()" value="remove a random Node"> <br />
+<input type="button" onclick="resetAllNodes()" value="reload all nodes"> <br />
+<input type="button" onclick="resetAllNodesStabilize()" value="reload all nodes and stabilize"> <br />
+
+<h4>setOptions (change the global options):</h4>
+<input type="button" onclick="changeOptions()" value="change the global options"><br />
+
+<h4>setData (reinitialize the data): </h4>
+<input type="button" onclick="setTheData()" value="setData. This stabilizes again if stabilization is true."><br />
+
+<h4>Cleanly destroy the network and restart it:</h4>
+<input type="button" onclick="resetAll()" value="Destroy the network and restart it."><br />
+<div id="mynetwork"></div>
+
+<script type="text/javascript">
+    var nodeIds, shadowState, nodesArray, nodes, edgesArray, edges, network;
+
+    var svg = '<div>hello!</div>';
+
+
+    var url = "data:image/svg+xml;charset=utf-8,"+ encodeURIComponent(svg);
+    function startNetwork() {
+        // this list is kept to remove a random node.. we do not add node 1 here because it's used for changes
+        nodeIds = [2, 3, 4, 5];
+        shadowState = false;
+
+
+        // create an array with nodes
+        nodesArray = [
+            // {id: 1, label: 'July 21, 2018'},
+            {id: 2, shape: 'box', label: 'Crimson Hexagon'},
+            // {id: 3, label: 'BBC'},
+            {id: 4, shape: 'box', label: '<b>It contracts to analyze Facebook data for clients.</b>', font: { multi: 'html', size: 20 } },
+            {id: 5, shape: 'box', label: 'It has more than 1 trillion social media posts from Facebook, Instagram, and Twitter'},
+            {id: 6, shape: 'box', label: 'Cambridge Analytica Data Scandal'}
+            // Crimson Hexagon has "contracts to analyse public Facebook data for clients including a Russian nonprofit with ties to the Kremlin and multiple US government agencies”.
+            // more than one trillion social media posts take from Facebook, Instagram, Twitter and others. It boasts of being able to analyse more than 160m photographs posted online every day.
+            // chief technology officer Chris Bingham
+        ];
+        nodes = new vis.DataSet(nodesArray);
+
+        // create an array with edges
+        edgesArray = [
+            // {from: 1, to: 3},
+            // {from: 1, to: 2},
+            {from: 2, to: 4},
+            {from: 2, to: 5}
+        ];
+        edges = new vis.DataSet(edgesArray);
+
+        // create a network
+        var container = document.getElementById('mynetwork');
+        var data = {
+            nodes: nodes,
+            edges: edges
+        };
+        var options = {};
+        network = new vis.Network(container, data, options);
+    }
+
+    function addNode() {
+        var newId = (Math.random() * 1e7).toString(32);
+        nodes.add({id:newId, label:"I'm new!", shape: 'box'});
+        nodeIds.push(newId);
+    }
+
+    function changeNode1() {
+        var newColor = '#' + Math.floor((Math.random() * 255 * 255 * 255)).toString(16);
+        nodes.update([{id:1, color:{background:newColor}}]);
+    }
+
+    function removeRandomNode() {
+        var randomNodeId = nodeIds[Math.floor(Math.random() * nodeIds.length)];
+        nodes.remove({id:randomNodeId});
+
+        var index = nodeIds.indexOf(randomNodeId);
+        nodeIds.splice(index,1);
+    }
+
+    function changeOptions() {
+        shadowState = !shadowState;
+        network.setOptions({nodes:{shadow:shadowState},edges:{shadow:shadowState}});
+    }
+
+    function resetAllNodes() {
+        nodes.clear();
+        edges.clear();
+        nodes.add(nodesArray);
+        edges.add(edgesArray);
+    }
+
+    function resetAllNodesStabilize() {
+        resetAllNodes();
+        network.stabilize();
+    }
+
+    function setTheData() {
+        nodes = new vis.DataSet(nodesArray);
+        edges = new vis.DataSet(edgesArray);
+        network.setData({nodes:nodes, edges:edges})
+    }
+
+    function resetAll() {
+        if (network !== null) {
+            network.destroy();
+            network = null;
+        }
+        startNetwork();
+    }
+
+    startNetwork();
+</script>
+
+
+</body>
+</html>
