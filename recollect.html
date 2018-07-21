@@ -44,9 +44,9 @@ Type in the new element here:  <input id="newThing" type="text" value="">
             if (recordsForQuerying.get(record.id) == undefined)
                 allData.records.push(record);
         }
-        localStorage.setItem('records', JSON.stringify(allDataOnTheDisplay.records));
+        localStorage.setItem('records', JSON.stringify(allData.records));
 
-        localStorage.setItem('relationships', JSON.stringify(allDataOnTheDisplay.relationships));
+        localStorage.setItem('relationships', JSON.stringify(allData.relationships));
 
         //var relationshipsForQuerying = new vis.DataSet(allData.relationships);
         //console.log(getAllDataOnTheDisplay().relationships);
