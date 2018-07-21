@@ -14,7 +14,8 @@
 </p>
 
 <h4>DataSet (change the data while it's loaded and initialzed):</h4>
-<input type="button" onclick="addNode()" value="add node dynamically"> <br />
+Type in the new element here:  <input id="newThing" type="text" value=""> <br />
+<input type="button" onclick="addNode($('#newThing').val())" value="add node dynamically"> <br />
 <input type="button" onclick="changeNode1()" value="change node 1's color dynamically"> <br />
 <input type="button" onclick="removeRandomNode()" value="remove a random Node"> <br />
 <input type="button" onclick="resetAllNodes()" value="reload all nodes"> <br />
@@ -112,10 +113,9 @@
 
     var clusters = [];
 
-    function addNode() {
-        var newId = (Math.random() * 1e7).toString(32);
-        nodes.add({id:newId, label:"I'm new!", shape: 'box'});
-        nodeIds.push(newId);
+    function addNode(id) {
+        nodes.add({id:id, label:id, shape: 'box'});
+        nodeIds.push(id);
     }
 
     function changeNode1() {
