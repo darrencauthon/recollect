@@ -16,19 +16,7 @@
 <h4>DataSet (change the data while it's loaded and initialzed):</h4>
 Type in the new element here:  <input id="newThing" type="text" value=""> <br />
 <input type="button" onclick="addNode($('#newThing').val())" value="add node dynamically"> <br />
-<input type="button" onclick="changeNode1()" value="change node 1's color dynamically"> <br />
-<input type="button" onclick="removeRandomNode()" value="remove a random Node"> <br />
-<input type="button" onclick="resetAllNodes()" value="reload all nodes"> <br />
-<input type="button" onclick="resetAllNodesStabilize()" value="reload all nodes and stabilize"> <br />
 
-<h4>setOptions (change the global options):</h4>
-<input type="button" onclick="changeOptions()" value="change the global options"><br />
-
-<h4>setData (reinitialize the data): </h4>
-<input type="button" onclick="setTheData()" value="setData. This stabilizes again if stabilization is true."><br />
-
-<h4>Cleanly destroy the network and restart it:</h4>
-<input type="button" onclick="resetAll()" value="Destroy the network and restart it."><br />
 <div id="recollect-input" class="network"></div>
 <div id="recollect-output" class="network"></div>
 <input id='recollect-text-input' placeholder="Recollect..." />
@@ -130,10 +118,9 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
 
     var clusters = [];
 
-    //function addNode(id) {
-    //    nodes.add({id:id, label:id, shape: 'box'});
-    //    nodeIds.push(id);
-    //}
+    function addNode(id) {
+        nodes.add({id:id, label:id, shape: 'box'});
+    }
 
     //function changeNode1() {
     //    var newColor = '#' + Math.floor((Math.random() * 255 * 255 * 255)).toString(16);
