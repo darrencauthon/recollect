@@ -54,8 +54,8 @@
         var structuredData = {
         };
         // create an array with nodes
-        nodesArray = rawInput.map((record, index) => {
-            return {id: index, shape: 'box', label: record.id }
+        nodesArray = rawInput.map((record, _) => {
+            return {id: record.index, shape: 'box', label: record.id }
         });
 
         nodes = new vis.DataSet(nodesArray);
