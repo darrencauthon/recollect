@@ -22,7 +22,7 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
 <input id='recollect-text-input' placeholder="Recollect..." />
 
 <script type="text/javascript">
-    var shadowState, nodes, edgesArray, edges, network;
+    var nodes, edgesArray, edges, network;
 
     var nodesOnThePage;
 
@@ -65,9 +65,7 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
         });
     }
 
-    function startNetwork(filter) {
-
-        shadowState = false;
+    function startNetwork() {
 
         // create an array with nodes
         var records = getAllRecords();
