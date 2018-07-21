@@ -15,10 +15,13 @@
 </p>
 
 <h4>DataSet (change the data while it's loaded and initialzed):</h4>
-Type in the new element here:  <input id="newThing" type="text" value=""> <br />
-<input type="button" onclick="addNode($('#newThing').val())" value="add node dynamically"> <br />
+Type in the new element here:  <input id="newThing" type="text" value="">
+<input type="button" onclick="addNode($('#newThing').val())" value="add node dynamically">
 
-<input type="button" onclick="localStorage.setItem('records', undefined)" value="clear your local store"> <br />
+<br /><br />
+
+<input type="button" onclick="localStorage.setItem('records', undefined)" value="clear your local store">
+<input type="button" onclick="saveAllDataOnThePage()" value="save all changes">
 
 <div id="recollect-input" class="network"></div>
 <div id="recollect-output" class="network"></div>
