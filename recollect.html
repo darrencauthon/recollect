@@ -60,7 +60,11 @@
 
         nodes = new vis.DataSet(nodesArray);
 
-        edgesArray = [];
+        edgesArray = [
+            { from: 'BBC News', to: 'Facebook' },
+            { from: 'CTO', to: 'Cambridge Analytics' }
+        ];
+
         edges = new vis.DataSet(edgesArray);
 
         // create a network
