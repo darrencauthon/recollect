@@ -7,43 +7,46 @@ $(document).ready(() => {
 
   $('#update-nodes').click(() => {
     const searchTerm = $('#recollect-text-input').val().toLowerCase();
-    const matchingNodeIds = findMatchingNodeIds(searchTerm);
 
-
-    const nodesToRemove = _.reject(nodesOnThePage._data, node => {
-      return _.find(matchingNodeIds, id => id === node.id);
-    });
-    _.each(nodesToRemove, node => {
+    _.each(nodesOnThePage._data, node => {
       nodesOnThePage.remove(node);
     });
 
+    const exactRecordMatches = _.filter(getAllData().records, record => {
+      return record.id.toLowerCase().search(searchTerm) > -1;
+    });
+    const recordsLinkedDirectly = findRecordsLinkedToThese(exactRecordMatches);
 
-    _.each(findNodesLinkedToNodeIds(matchingNodeIds), node => {
-      nodesOnThePage.add(buildNodeFromRecord(node));
+    _.each(exactRecordMatches, record => {
+      nodesOnThePage.add(buildNodeFromRecord(record));
+    });
+    _.each(recordsLinkedDirectly, record => {
+      nodesOnThePage.add(buildNodeFromRecord(record));
     });
 
-    function findNodesLinkedToNodeIds(nodeIds) {
-      return _.chain(nodeIds)
-        .map(id => nodesLinkedTo(id))
+
+    function findRecordsLinkedToThese(records) {
+      return _.chain(records)
+        .map(record => findRecordsLinkedTo(record))
         .flatten()
         .value();
     }
 
-    function nodesLinkedTo(nodeId) {
+    function findRecordsLinkedTo(record) {
       var relationships = getAllRelationships();
       return _.chain(relationships)
         .filter(relationship => {
-          return (relationship.from === nodeId) || (relationship.to === nodeId);
+          return (relationship.from === record.id) || (relationship.to === record.id);
         })
         .map(relationship => {
-          if (relationship.from === nodeId) {
+          if (relationship.from === record.id) {
             return relationship.to;
           } else {
             return relationship.from
           }
         })
-        .map(nodeId => {
-          return _.find(getAllData().records, record => record.id === nodeId)
+        .map(recordId => {
+          return _.find(getAllData().records, record => recordId === record.id)
         })
         .value();
     };
