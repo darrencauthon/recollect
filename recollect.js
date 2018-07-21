@@ -16,12 +16,17 @@ $(document).ready(() => {
       return record.id.toLowerCase().search(searchTerm) > -1;
     });
     const recordsLinkedDirectly = findRecordsLinkedToThese(exactRecordMatches);
+    const recordsLinkedBySkippingOne = findRecordsLinkedToThese(recordsLinkedDirectly);
 
     _.each(exactRecordMatches, record => {
-      nodesOnThePage.add(buildNodeFromRecord(record));
+      addRecordToNodesOnThePage(record);
     });
     _.each(recordsLinkedDirectly, record => {
-      nodesOnThePage.add(buildNodeFromRecord(record));
+      addRecordToNodesOnThePage(record);
+    });
+
+    _.each(recordsLinkedBySkippingOne, record => {
+      addRecordToNodesOnThePage(record);
     });
 
 
@@ -80,4 +85,12 @@ function highlightNodes(searchTerm) {
       font: { size: 20 }
     };
   }));
+}
+
+function addRecordToNodesOnThePage(record) {
+  const ids = _.keys(nodesOnThePage._data);
+  if (!_.find(ids, nodeId => nodeId === record.id)) {
+    const node = buildNodeFromRecord(record);
+    nodesOnThePage.add(node);
+  }
 }
