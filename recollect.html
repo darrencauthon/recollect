@@ -38,14 +38,21 @@ Type in the new element here:  <input id="newThing" type="text" value="">
         var allData = getAllData();
 
         var recordsForQuerying = new vis.DataSet(allData.records);
-
         for (var i = 0; i < getAllDataOnTheDisplay().records.length; i++) {
             var record = getAllDataOnTheDisplay().records[i];
             if (recordsForQuerying.get(record.id) == undefined)
                 allData.records.push(record);
         }
-
         localStorage.setItem('records', JSON.stringify(getAllDataOnTheDisplay().records));
+
+        //var relationshipsForQuerying = new vis.DataSet(allData.relationships);
+        //console.log(getAllDataOnTheDisplay().relationships);
+        //for (var i = 0; i < getAllDataOnTheDisplay().relationships.length; i++) {
+        //    var relationship = getAllDataOnTheDisplay().relationships[i];
+        //    if (relationshipsForQuerying.get({filter: function (x) { return x.from == relationship.from && x.to == relationship.to}}) == undefined)
+        //        allData.records.push(relationship);
+        //}
+        //localStorage.setItem('relationships', JSON.stringify(getAllDataOnTheDisplay().relationships));
     }
 
     var getAllDataOnTheDisplay = function() {
