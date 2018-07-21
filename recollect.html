@@ -62,36 +62,39 @@
 <script type="text/javascript">
     var nodeIds, shadowState, nodesArray, nodes, edgesArray, edges, network;
 
-    var svg = '<div>hello!</div>';
-
-
-    var url = "data:image/svg+xml;charset=utf-8,"+ encodeURIComponent(svg);
     function startNetwork() {
         // this list is kept to remove a random node.. we do not add node 1 here because it's used for changes
         nodeIds = [2, 3, 4, 5];
         shadowState = false;
 
-
-        // create an array with nodes
-        nodesArray = [
-            // {id: 1, label: 'July 21, 2018'},
-            {id: 2, shape: 'box', label: 'Crimson Hexagon'},
-            // {id: 3, label: 'BBC'},
-            {id: 4, shape: 'box', label: '<b>It contracts to analyze Facebook data for clients.</b>', font: { multi: 'html', size: 20 } },
-            {id: 5, shape: 'box', label: 'It has more than 1 trillion social media posts from Facebook, Instagram, and Twitter'},
-            {id: 6, shape: 'box', label: 'Cambridge Analytica Data Scandal'}
-            // Crimson Hexagon has "contracts to analyse public Facebook data for clients including a Russian nonprofit with ties to the Kremlin and multiple US government agencies”.
-            // more than one trillion social media posts take from Facebook, Instagram, Twitter and others. It boasts of being able to analyse more than 160m photographs posted online every day.
-            // chief technology officer Chris Bingham
+        var rawInput = [
+            'BBC News',
+            '7/21/2017',
+            '6/1/2017',
+            'Facebook',
+            'One trillion social media posts',
+            'CTO',
+            'Chris Bingham',
+            'Crimson Hexagon',
+            'Cambridge Analytics',
+            'Zuckerberg testifies before Congress',
         ];
+
+        var structuredData = {
+        };
+        // create an array with nodes
+        nodesArray = rawInput.map((text, index) => {
+            return {id: index, shape: 'box', label: text }
+        });
+
         nodes = new vis.DataSet(nodesArray);
 
         // create an array with edges
         edgesArray = [
-            // {from: 1, to: 3},
-            // {from: 1, to: 2},
-            {from: 2, to: 4},
-            {from: 2, to: 5}
+            // {from: 1, to: 10},
+            // {from: 1, to: 5},
+            // {from: 1, to: 9},
+            // {from: 100, to: 106},
         ];
         edges = new vis.DataSet(edgesArray);
 
@@ -101,9 +104,32 @@
             nodes: nodes,
             edges: edges
         };
-        var options = {};
+
+        var options = {
+            interaction:{hover:true},
+            manipulation: {
+                enabled: true
+            },
+            "edges": {
+    "smooth": false
+  },
+  "physics": {
+    "barnesHut": {
+      "gravitationalConstant": -7650,
+      "centralGravity": 0.4,
+      "springLength": 0,
+      "springConstant": 0,
+      "damping": 1
+    },
+    "maxVelocity": 8,
+    "minVelocity": 0.75
+  }
+        };
+
         network = new vis.Network(container, data, options);
     }
+
+    var clusters = [];
 
     function addNode() {
         var newId = (Math.random() * 1e7).toString(32);
