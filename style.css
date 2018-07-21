@@ -1,0 +1,13 @@
+.network {
+    width: 600px;
+    height: 400px;
+    border: 1px solid lightgray;
+}
+
+p {
+    max-width:600px;
+}
+
+h4 {
+    margin-bottom:3px;
+}
