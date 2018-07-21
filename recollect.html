@@ -43,10 +43,9 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
         //console.log(records.get('CTO'));
 
         for (var i = 0; i < recordsOnThePage.length; i++) {
-            var x = recordsOnThePage[i];
-            if (recordsForQuerying.get(x.id) == undefined) {
-                records.push(x);
-            }
+            var record = recordsOnThePage[i];
+            if (recordsForQuerying.get(record.id) == undefined)
+                records.push(record);
         }
 
         localStorage.setItem('records', JSON.stringify(recordsOnThePage));
