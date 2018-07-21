@@ -55,7 +55,7 @@
         };
         // create an array with nodes
         nodesArray = rawInput.map((record, _) => {
-            return {id: record.id, shape: 'box', label: record.id }
+            return { id: record.id, shape: 'box', label: record.id }
         });
 
         nodes = new vis.DataSet(nodesArray);
