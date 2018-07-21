@@ -84,13 +84,13 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
         shadowState = false;
 
         // create an array with nodes
-        displayTheseRecords(getAllRecords());
-
-        nodes = new vis.DataSet(nodesArray);
-
+        var records = getAllRecords();
         var relationships = getAllRelationships();
 
+        displayTheseRecords(records);
+
         edges = new vis.DataSet(relationships);
+        nodes = new vis.DataSet(nodesArray);
 
         // create a network
         var inputContainer = document.getElementById('recollect-input');
@@ -123,11 +123,11 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
 
         inputNetwork = new vis.Network(inputContainer, data, options);
 
-        var data = {
-            nodes: nodes,
-            edges: []
-        };
-        outputNetwork = new vis.Network(outputContainer, data, options);
+        //var data = {
+        //    nodes: nodes,
+        //    edges: []
+        //};
+        //outputNetwork = new vis.Network(outputContainer, data, options);
     }
 
     var clusters = [];
