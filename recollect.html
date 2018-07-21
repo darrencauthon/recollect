@@ -34,10 +34,9 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
 <input id='recollect-text-input' placeholder="Recollect..." />
 
 <script type="text/javascript">
-    var nodeIds, shadowState, nodes, edgesArray, edges, network, records;
+    var nodeIds, shadowState, nodes, edgesArray, edges, network;
 
     var nodesArray;
-    function startNetwork(filter) {
 
     var getAllRecordsVisibleOnTheDisplay = function() {
         var records = [];
@@ -60,30 +59,20 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
             { id: 'Cambridge Analytics' },
             { id: 'Zuckerberg testifies before Congress' },
         ];
-        records = _.map(records, record => {
-          if (filter && record.id.search(filter) > -1) {
-            record.options = { color: 'red' };
-          }
+    };
 
-          return record;
-        });
-    }
-
-    function startNetwork() {
-
-        var records = getAllRecords();
+    function startNetwork(filter) {
 
         // this list is kept to remove a random node.. we do not add node 1 here because it's used for changes
         nodeIds = [2, 3, 4, 5];
         shadowState = false;
 
         // create an array with nodes
-        nodesArray = records.map(record => {
+        nodesArray = getAllRecords().map(record => {
             return _.extend(
                 { id: record.id, shape: 'box', label: record.id },
                 record.options
             );
-
         });
 
         nodes = new vis.DataSet(nodesArray);
