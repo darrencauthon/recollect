@@ -36,7 +36,7 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
 <script type="text/javascript">
     var nodeIds, shadowState, nodesArray, nodes, edgesArray, edges, network, records;
 
-    var retrieveAllRecords = function() {
+    var getAllRecordsVisibleOnTheDisplay = function() {
         var records = [];
         nodesArray.map((record, _) => {
             records.push({ id: record.id });
