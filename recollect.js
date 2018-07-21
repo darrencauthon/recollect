@@ -6,12 +6,19 @@ $(document).ready(() => {
   });
 });
 
-function highlightNodes(searchTerm) {
+function findMatchingNodes(searchTerm) {
   var nodeIdsToUpdate = _.filter(_.keys(nodesOnThePage._data), (id) => {
     if (searchTerm.length > 0 && id.toLowerCase().search(searchTerm) > -1) {
       return id;
     }
   });
+
+  return nodeIdsToUpdate;
+}
+
+function highlightNodes(searchTerm) {
+  var nodeIdsToUpdate = findMatchingNodes(searchTerm);
+
   nodesOnThePage.update(_.keys(nodesOnThePage._data).map(id => {
     return {
       id: id,
