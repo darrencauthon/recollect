@@ -33,7 +33,7 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
         return records;
     };
 
-    var getAllData = function() {
+    var getData = function() {
         return {
             records: getAllRecords(),
             relationships: getAllRelationships()
@@ -124,7 +124,7 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
         nodes.add({id:id, label:id, shape: 'box'});
     }
 
-    startNetwork(getAllData);
+    startNetwork(getData);
 
     //function changeNode1() {
     //    var newColor = '#' + Math.floor((Math.random() * 255 * 255 * 255)).toString(16);
