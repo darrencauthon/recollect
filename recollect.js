@@ -19,13 +19,16 @@ $(document).ready(() => {
     const recordsLinkedBySkippingOne = findRecordsLinkedToThese(recordsLinkedDirectly);
 
     _.each(exactRecordMatches, record => {
+      record.options = { color: { background: 'orange' } };
       addRecordToNodesOnThePage(record);
     });
     _.each(recordsLinkedDirectly, record => {
+      record.options = { color: { background: '#42d242' } };
       addRecordToNodesOnThePage(record);
     });
 
     _.each(recordsLinkedBySkippingOne, record => {
+      record.options = { color: { background: 'tan' } };
       addRecordToNodesOnThePage(record);
     });
 
@@ -55,6 +58,15 @@ $(document).ready(() => {
         })
         .value();
     };
+  });
+
+  $('#newThing').keypress(event => {
+    const ENTER = 13;
+
+    if (event.which === ENTER) {
+      addNode($('#newThing').val());
+      $('#newThing').val('');
+    }
   });
 });
 
