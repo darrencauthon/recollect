@@ -34,7 +34,9 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
 <input id='recollect-text-input' placeholder="Recollect..." />
 
 <script type="text/javascript">
-    var nodeIds, shadowState, nodesArray, nodes, edgesArray, edges, network, records;
+    var nodeIds, shadowState, nodes, edgesArray, edges, network, records;
+
+    var nodesArray;
 
     var getAllRecordsVisibleOnTheDisplay = function() {
         var records = [];
