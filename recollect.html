@@ -46,6 +46,13 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
         return records;
     };
 
+    var getAllRelationships = function() {
+         return [
+            { from: 'BBC News', to: 'Facebook' },
+            { from: 'CTO', to: 'Cambridge Analytics' }
+        ];
+    }
+
     var getAllRecords = function() {
         return [
             { id: 'BBC News' },
@@ -81,11 +88,7 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
 
         nodes = new vis.DataSet(nodesArray);
 
-        var relationships = [
-            { from: 'BBC News', to: 'Facebook' },
-            { from: 'CTO', to: 'Cambridge Analytics' }
-        ];
-        var edgesArray = relationships;
+        var relationships = getAllRelationships();
 
         edges = new vis.DataSet(relationships);
 
