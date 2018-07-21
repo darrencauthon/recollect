@@ -15,8 +15,13 @@
 </p>
 
 <h4>DataSet (change the data while it's loaded and initialzed):</h4>
-Type in the new element here:  <input id="newThing" type="text" value=""> <br />
-<input type="button" onclick="addNode($('#newThing').val())" value="add node dynamically"> <br />
+Type in the new element here:  <input id="newThing" type="text" value="">
+<input type="button" onclick="addNode($('#newThing').val())" value="add node dynamically">
+
+<br /><br />
+
+<input type="button" onclick="localStorage.setItem('records', undefined);localStorage.setItem('relationships', undefined)" value="clear your local store">
+<input type="button" onclick="saveAllDataOnThePage()" value="save all changes">
 
 <div id="recollect-input" class="network"></div>
 <div id="recollect-output" class="network"></div>
@@ -31,23 +36,42 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
     var saveAllDataOnThePage = function()
     {
         var allData = getAllData();
+        var allDataOnTheDisplay = getAllDataOnTheDisplay();
 
         var recordsForQuerying = new vis.DataSet(allData.records);
 
-        for (var i = 0; i < getAllDataOnTheDisplay().records.length; i++) {
-            var record = getAllDataOnTheDisplay().records[i];
+        for (var i = 0; i < allDataOnTheDisplay.records.length; i++) {
+            var record = allDataOnTheDisplay.records[i];
             if (recordsForQuerying.get(record.id) == undefined)
                 allData.records.push(record);
         }
+        localStorage.setItem('records', JSON.stringify(allDataOnTheDisplay.records));
 
-        localStorage.setItem('records', JSON.stringify(getAllDataOnTheDisplay().records));
+        localStorage.setItem('relationships', JSON.stringify(allDataOnTheDisplay.relationships));
+
+        //var relationshipsForQuerying = new vis.DataSet(allData.relationships);
+        //console.log(getAllDataOnTheDisplay().relationships);
+        //for (var i = 0; i < getAllDataOnTheDisplay().relationships.length; i++) {
+        //    var relationship = getAllDataOnTheDisplay().relationships[i];
+        //    if (relationshipsForQuerying.get({filter: function (x) { return x.from == relationship.from && x.to == relationship.to}}) == undefined)
+        //        allData.records.push(relationship);
+        //}
+        //localStorage.setItem('relationships', JSON.stringify(getAllDataOnTheDisplay().relationships));
     }
 
     var getAllDataOnTheDisplay = function() {
         return {
             records: getAllRecordsVisibleOnTheDisplay(),
-            relationships: relationshipsOnThePage
+            relationships: getAllRelationshipsVisibleOnTheDisplay()
         };
+    }
+
+    var getAllRelationshipsVisibleOnTheDisplay = function() {
+        var relationships = [];
+        relationshipsOnThePage.map((record, _) => {
+            relationships.push({ from: record.from, to: record.to });
+        });
+        return relationships;
     }
 
     var getAllRecordsVisibleOnTheDisplay = function() {
@@ -74,29 +98,34 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
     }
 
     var getAllRelationships = function() {
-         return [
-            { from: 'BBC News', to: 'Facebook' },
-            { from: 'CTO', to: 'Cambridge Analytics' },
-            { from: 'Chris Bingham', to: 'Cambridge Analytics' }
-        ];
+        localStorage.getItem('relationships');
+        try {
+            return JSON.parse(localStorage.getItem('relationships'));
+        } catch (error) {
+             return [
+                { from: 'BBC News', to: 'Facebook' },
+                { from: 'CTO', to: 'Cambridge Analytics' }
+            ];
+        }
     }
 
     var getAllRecords = function() {
-        if (localStorage.getItem('records') != undefined)
+        try {
             return JSON.parse(localStorage.getItem('records'));
-
-        return [
-            { id: 'BBC News' },
-            { id: '7/21/2017' },
-            { id: '6/1/2017' },
-            { id: 'Facebook' },
-            { id: 'One trillion social media posts' },
-            { id: 'CTO' },
-            { id: 'Chris Bingham' },
-            { id: 'Crimson Hexagon' },
-            { id: 'Cambridge Analytics' },
-            { id: 'Zuckerberg testifies before Congress' },
-        ];
+        } catch(error){
+            return [
+                { id: 'BBC News' },
+                { id: '7/21/2017' },
+                { id: '6/1/2017' },
+                { id: 'Facebook' },
+                { id: 'One trillion social media posts' },
+                { id: 'CTO' },
+                { id: 'Chris Bingham' },
+                { id: 'Crimson Hexagon' },
+                { id: 'Cambridge Analytics' },
+                { id: 'Zuckerberg testifies before Congress' },
+            ];
+        }
     };
 
     var displayTheseRecords = function(records) {
