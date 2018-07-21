@@ -231,6 +231,16 @@ Type in the new element here:  <input id="newThing" type="text" value="">
     //    }
     //    startNetwork();
     //}
+
+    var debug = true;
+    function debugAllData() {
+        console.log('getAllDataOnTheDisplay', getAllDataOnTheDisplay());
+    }
+    setInterval(() => {
+        if(debug) {
+            debugAllData();
+        }
+    }, 5000);
 </script>
 </body>
 <script src="recollect.js" type="text/javascript"></script>
