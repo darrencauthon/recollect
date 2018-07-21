@@ -18,6 +18,8 @@
 Type in the new element here:  <input id="newThing" type="text" value=""> <br />
 <input type="button" onclick="addNode($('#newThing').val())" value="add node dynamically"> <br />
 
+<input type="button" onclick="localStorage.setItem('records', undefined)" value="clear your local store"> <br />
+
 <div id="recollect-input" class="network"></div>
 <div id="recollect-output" class="network"></div>
 <input id='recollect-text-input' placeholder="Recollect..." />
@@ -81,21 +83,22 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
     }
 
     var getAllRecords = function() {
-        if (localStorage.getItem('records') != undefined)
+        try {
             return JSON.parse(localStorage.getItem('records'));
-
-        return [
-            { id: 'BBC News' },
-            { id: '7/21/2017' },
-            { id: '6/1/2017' },
-            { id: 'Facebook' },
-            { id: 'One trillion social media posts' },
-            { id: 'CTO' },
-            { id: 'Chris Bingham' },
-            { id: 'Crimson Hexagon' },
-            { id: 'Cambridge Analytics' },
-            { id: 'Zuckerberg testifies before Congress' },
-        ];
+        } catch(error){
+            return [
+                { id: 'BBC News' },
+                { id: '7/21/2017' },
+                { id: '6/1/2017' },
+                { id: 'Facebook' },
+                { id: 'One trillion social media posts' },
+                { id: 'CTO' },
+                { id: 'Chris Bingham' },
+                { id: 'Crimson Hexagon' },
+                { id: 'Cambridge Analytics' },
+                { id: 'Zuckerberg testifies before Congress' },
+            ];
+        }
     };
 
     var displayTheseRecords = function(records) {
