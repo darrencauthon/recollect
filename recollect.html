@@ -33,7 +33,15 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
         return records;
     };
 
-    var getData = function() {
+    var getData = function(filter) {
+        var allData = getAllData();
+
+        // filter here
+
+        return allData;
+    }
+
+    var getAllData = function() {
         return {
             records: getAllRecords(),
             relationships: getAllRelationships()
