@@ -36,8 +36,16 @@
             if (recordsForQuerying.get(record.id) == undefined)
                 allData.records.push(record);
         }
+        console.log('Before saving, records:', JSON.parse(localStorage.getItem('records')));
+        console.log('Before saving, relationships', JSON.parse(localStorage.getItem('relationships')));
         localStorage.setItem('records', JSON.stringify(allData.records));
-        localStorage.setItem('relationships', JSON.stringify(allData.relationships));
+        var relationships = _.map(relationshipsOnThePage._data, (record) => {
+            return { from: record.from, to: record.to }
+        });
+        localStorage.setItem('relationships', JSON.stringify(relationships));
+        console.log('Saved');
+        console.log('After saving, records:', JSON.parse(localStorage.getItem('records')));
+        console.log('After saving, relationships', JSON.parse(localStorage.getItem('relationships')));
 
         //var relationshipsForQuerying = new vis.DataSet(allData.relationships);
         //console.log(getAllDataOnTheDisplay().relationships);
@@ -245,18 +253,6 @@
     //    }
     //    startNetwork();
     //}
-
-    var debug = true;
-    function debugAllData() {
-        console.log('allData', getAllDataOnTheDisplay());
-    }
-    setInterval(() => {
-        if(debug) {
-            saveAllDataOnThePage();
-            debugAllData();
-            console.log('Saved!');
-        }
-    }, 1000);
 </script>
 </body>
 <script src="recollect.js" type="text/javascript"></script>
