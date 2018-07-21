@@ -24,7 +24,6 @@ Type in the new element here:  <input id="newThing" type="text" value="">
 <input type="button" onclick="saveAllDataOnThePage()" value="save all changes">
 
 <div id="recollect-input" class="network"></div>
-<div id="recollect-output" class="network"></div>
 <input id='recollect-text-input' placeholder="Recollect..." />
 <button id='update-nodes'>Bring Forward</button>
 
@@ -150,7 +149,6 @@ Type in the new element here:  <input id="newThing" type="text" value="">
 
         // create a network
         var inputContainer = document.getElementById('recollect-input');
-        var outputContainer = document.getElementById('recollect-output');
 
         var data = {
             nodes: nodesOnThePage,
@@ -179,7 +177,6 @@ Type in the new element here:  <input id="newThing" type="text" value="">
         };
 
         inputNetwork = new vis.Network(inputContainer, data, options);
-        outputNetwork = new vis.Network(outputContainer, data, options);
     }
 
     var clusters = [];
