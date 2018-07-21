@@ -234,13 +234,15 @@ Type in the new element here:  <input id="newThing" type="text" value="">
 
     var debug = true;
     function debugAllData() {
-        console.log('getAllDataOnTheDisplay', getAllDataOnTheDisplay());
+        console.log('allData', getAllDataOnTheDisplay());
     }
     setInterval(() => {
         if(debug) {
+            saveAllDataOnThePage();
             debugAllData();
+            console.log('Saved!');
         }
-    }, 5000);
+    }, 1000);
 </script>
 </body>
 <script src="recollect.js" type="text/javascript"></script>
