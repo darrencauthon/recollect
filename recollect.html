@@ -21,6 +21,7 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
 <div id="recollect-input" class="network"></div>
 <div id="recollect-output" class="network"></div>
 <input id='recollect-text-input' placeholder="Recollect..." />
+<button id='update-nodes'>Bring Forward</button>
 
 <script type="text/javascript">
 
@@ -98,12 +99,14 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
     };
 
     var displayTheseRecords = function(records) {
-        nodesOnThePage = records.map(record => {
-            return _.extend(
-                { id: record.id, shape: 'box', label: record.id },
-                record.options
-            );
-        });
+        nodesOnThePage = records.map(record => buildNodeFromRecord(record));
+    }
+
+    function buildNodeFromRecord(record) {
+        return _.extend(
+            { id: record.id, shape: 'box', label: record.id },
+            record.options
+        );
     }
 
     function startNetwork(getAllData) {
