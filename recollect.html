@@ -62,8 +62,16 @@ Type in the new element here:  <input id="newThing" type="text" value="">
     var getAllDataOnTheDisplay = function() {
         return {
             records: getAllRecordsVisibleOnTheDisplay(),
-            relationships: relationshipsOnThePage
+            relationships: getAllRelationshipsVisibleOnTheDisplay()
         };
+    }
+
+    var getAllRelationshipsVisibleOnTheDisplay = function() {
+        var relationships = [];
+        relationshipsOnThePage.map((record, _) => {
+            relationships.push({ from: record.from, to: record.to });
+        });
+        return relationships;
     }
 
     var getAllRecordsVisibleOnTheDisplay = function() {
