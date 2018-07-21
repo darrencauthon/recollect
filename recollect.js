@@ -1,10 +1,18 @@
+var newColor = '#' + Math.floor((Math.random() * 255 * 255 * 255)).toString(16);
 $(document).ready(() => {
-  $('#recollect-text-input').keyup(() => {
+  $('#recollect-text-input').blur(() => {
     const searchTerm = $('#recollect-text-input').val();
-    const matchingNodes = _.filter(records, node => {
-      return node.id.search(searchTerm) > -1
+    var nodeIdsToUpdate = _.filter(_.keys(nodes._data), (id) => {
+      if (searchTerm.length > 0 && id.search(searchTerm) > -1) {
+        return id;
+      }
     });
-
-    console.log('matchingNodes', matchingNodes);
+    nodes.update(nodeIdsToUpdate.map(id => {
+      return {
+        id: id,
+        color: { background: newColor },
+        font: { size: 20 }
+      };
+    }));
   });
 });

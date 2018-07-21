@@ -35,7 +35,7 @@
 <script type="text/javascript">
     var nodeIds, shadowState, nodesArray, nodes, edgesArray, edges, network, records;
 
-    function startNetwork() {
+    function startNetwork(filter) {
         // this list is kept to remove a random node.. we do not add node 1 here because it's used for changes
         nodeIds = [2, 3, 4, 5];
         shadowState = false;
@@ -52,10 +52,21 @@
             { id: 'Cambridge Analytics' },
             { id: 'Zuckerberg testifies before Congress' },
         ];
+        records = _.map(records, record => {
+          if (filter && record.id.search(filter) > -1) {
+            record.options = { color: 'red' };
+          }
+
+          return record;
+        });
 
         // create an array with nodes
-        nodesArray = records.map((record, _) => {
-            return { id: record.id, shape: 'box', label: record.id }
+        nodesArray = records.map(record => {
+            return _.extend(
+                { id: record.id, shape: 'box', label: record.id },
+                record.options
+            );
+
         });
 
         nodes = new vis.DataSet(nodesArray);
