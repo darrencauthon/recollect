@@ -46,12 +46,8 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
         return records;
     };
 
-    function startNetwork() {
-        // this list is kept to remove a random node.. we do not add node 1 here because it's used for changes
-        nodeIds = [2, 3, 4, 5];
-        shadowState = false;
-
-        records = [
+    var getAllRecords = function() {
+        return [
             { id: 'BBC News' },
             { id: '7/21/2017' },
             { id: '6/1/2017' },
@@ -63,6 +59,15 @@ Type in the new element here:  <input id="newThing" type="text" value=""> <br />
             { id: 'Cambridge Analytics' },
             { id: 'Zuckerberg testifies before Congress' },
         ];
+    }
+
+    function startNetwork() {
+
+        var records = getAllRecords();
+
+        // this list is kept to remove a random node.. we do not add node 1 here because it's used for changes
+        nodeIds = [2, 3, 4, 5];
+        shadowState = false;
 
         // create an array with nodes
         nodesArray = records.map((record, _) => {
