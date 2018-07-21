@@ -124,10 +124,30 @@
 
     function buildNodeFromRecord(record) {
         return _.extend(
-            { id: record.id, shape: 'box', label: record.id },
+            {
+                id: record.id,
+                shape: 'box',
+                label:  buildLabel(record.id),
+                widthConstraint: {
+                    minimum: 120,
+                    maximum: 120
+                },
+                heightConstraint: {
+                    minimum: 30,
+                    maximum: 40
+                }
+            },
             record.options
         );
     }
+
+    function buildLabel(text) {
+        if(text.length < 20) {
+            return text;
+        } else {
+            return text.substring(0, 20) + '...';
+        }
+    };
 
     function startNetwork(getAllData) {
 

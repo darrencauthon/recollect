@@ -13,11 +13,8 @@ h4 {
 }
 
 #newThing {
-  position: absolute;
   border: 1px solid #616161;
-  margin-top: -45%;
-  margin-left: 25%;
-  width: 30%;
+  width: 100%;
   text-align: center;
   height: 10%;
   font-size: 5rem;
