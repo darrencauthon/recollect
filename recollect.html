@@ -282,7 +282,7 @@
 
         var listenForRecollectCommands = {
             smart: true,
-            indexes: ["listen *", "stop listening *"],
+            indexes: ["listen *", "stop listening *", "add *", "connect *"],
             action: function (i, value) {
                 if (i == 0) {
                     console.log("I'm listening");
@@ -312,7 +312,7 @@
                         lang: "en-GB",
                         continuous: true,
                         listen: true,
-                        debug: false,
+                        debug: true,
                         speed: 1
                     }).then(function () {
                         console.log("artyom loaded!");
@@ -330,9 +330,10 @@
             addNode(value);
         },
         connect: function (i, value) {
-            //darren
-            console.log(value);
-            //relationshipsOnThePage.add({})
+            var params = value.split(' to ');
+            if (params.length == 2) {
+                addRelationships({from: params[0], to: params[1]});
+            }
         },
     });
 
