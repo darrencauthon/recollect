@@ -44,6 +44,12 @@ function expandTextForNode(nodeId) {
 
 function contractTextForAllNodes() {
   _.each(getAllData().records, record => {
+
+    if (!nodesOnThePage._data[record.id]) {
+      return;
+    }
+
+
     nodesOnThePage.update([
       {
         id: record.id,
