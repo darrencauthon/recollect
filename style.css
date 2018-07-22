@@ -48,3 +48,13 @@ body {
 .btn-group button:hover {
     background-color: #3e8e41;
 }
+
+div.vis-network div.vis-manipulation div.vis-button.vis-add,
+div.vis-network div.vis-manipulation div.vis-button.vis-back {
+  /*display: none;*/
+}
+
+div.vis-network div.vis-manipulation div.vis-label,
+div.vis-network div.vis-edit-mode div.vis-label {
+  margin: 0 0 0 0px;
+}
