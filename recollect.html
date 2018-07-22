@@ -28,10 +28,15 @@
 
 <script type="text/javascript">
 
-    var FIRST_LEVEL_FONT_SIZE = 30;
+    var FIRST_LEVEL_FONT_SIZE = 20;
     var FIRST_LEVEL_BORDER_COLOR_CODE = '#5d5d5d';
     var FIRST_LEVEL_BG_COLOR_CODE = '#40395f';
     var FIRST_LEVEL_FG_COLOR_CODE = '#fff';
+
+    var HIGHLIGHT_FIRST_LEVEL_FONT_SIZE = 20;
+    var HIGHLIGHT_FIRST_LEVEL_BORDER_COLOR_CODE = '#5d5d5d';
+    var HIGHLIGHT_FIRST_LEVEL_BG_COLOR_CODE = '#40395f';
+    var HIGHLIGHT_FIRST_LEVEL_FG_COLOR_CODE = '#fff';
 
     var SECOND_LEVEL_FONT_SIZE = 20;
     var SECOND_LEVEL_BORDER_COLOR_CODE = '#5d5d5d';
@@ -171,11 +176,12 @@
         record.options = record.options || {};
 
         var colorOptions = _.extend({ border: DEFAULT_CIRCLE_BORDER_COLOR, background: DEFAULT_CIRCLE_BACKGROUND_COLOR }, record.options.color);
-        var fontOptions = _.extend({ align: 'center', size: defaultSize }, record.options.font);
+        var fontOptions = _.extend({ vadjust: 0, align: 'center', size: defaultSize }, record.options.font);
         delete record.options.color;
 
         var options = _.extend(
             {
+                size: defaultSize,
                 id: record.id,
                 shape: 'circle',
                 shapeProperties: { borderDashes:[5,5] },
@@ -187,9 +193,10 @@
                 },
                 heightConstraint: {
                     minimum: 30,
-                    maximum: 40
+                    maximum: 120
                 },
-                font: fontOptions
+                font: fontOptions,
+                chosen: false
             },
             record.options
         );
