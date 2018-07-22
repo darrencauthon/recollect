@@ -393,8 +393,7 @@
             }
         },
         recollect: function (i, value) {
-            $("#recollect-text-input").val(value);
-            bringForward(value);
+            enterTerm(value);
         },
         disconnect: function (i, value) {
             var params = value.split(' from ');

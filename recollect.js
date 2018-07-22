@@ -27,20 +27,25 @@ $(document).ready(() => {
     const ENTER = 13;
 
     if (event.which === ENTER) {
-      if (findMatchingNodeIds(typedTerm).length === 0) {
-        addNode(typedTerm);
-        $('#recollect-text-input').val('');
-      } else {
-        recollectedTerms.push(typedTerm);
-        bringForward(recollectedTerms);
-        $('#recollect-text-input').val('');
-      }
+      enterTerm(typedTerm);
     } else {
       const searchTerm = typedTerm.toLowerCase();
       highlightNodes(searchTerm);
     }
   });
 });
+
+function enterTerm(typedTerm) {
+  if (findMatchingNodeIds(typedTerm).length === 0) {
+    addNode(typedTerm);
+    $('#recollect-text-input').val('');
+  } else {
+    recollectedTerms.push(typedTerm);
+    bringForward(recollectedTerms);
+    $('#recollect-text-input').val('');
+  }
+}
+
 
 function expandTextForNode(nodeId) {
   nodesOnThePage.update([
