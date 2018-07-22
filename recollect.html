@@ -56,8 +56,7 @@
     var nodesOnThePage;
     var relationshipsOnThePage;
 
-    var saveAllDataOnThePage = function()
-    {
+    var saveAllDataOnThePage = function () {
         var allData = getAllData();
         var allDataOnTheDisplay = getAllDataOnTheDisplay();
 
@@ -72,7 +71,7 @@
             console.log('Before saving, records:', JSON.parse(localStorage.getItem('records')));
             console.log('Before saving, relationships', JSON.parse(localStorage.getItem('relationships')));
         } catch (error) {
-            // 
+            //
         }
         localStorage.setItem('records', JSON.stringify(allData.records));
         var relationships = _.map(relationshipsOnThePage._data, (record) => {
@@ -93,14 +92,14 @@
         //localStorage.setItem('relationships', JSON.stringify(getAllDataOnTheDisplay().relationships));
     }
 
-    var getAllDataOnTheDisplay = function() {
+    var getAllDataOnTheDisplay = function () {
         return {
             records: getAllRecordsVisibleOnTheDisplay(),
             relationships: getAllRelationshipsVisibleOnTheDisplay()
         };
     }
 
-    var getAllRelationshipsVisibleOnTheDisplay = function() {
+    var getAllRelationshipsVisibleOnTheDisplay = function () {
         var relationships = [];
         relationshipsOnThePage.map((record, _) => {
             relationships.push({ from: record.from, to: record.to });
@@ -108,7 +107,7 @@
         return relationships;
     }
 
-    var getAllRecordsVisibleOnTheDisplay = function() {
+    var getAllRecordsVisibleOnTheDisplay = function () {
         var records = [];
         nodesOnThePage.map((record, _) => {
             records.push({ id: record.id });
@@ -116,7 +115,7 @@
         return records;
     };
 
-    var getData = function(filter) {
+    var getData = function (filter) {
         var allData = getAllData();
 
         // filter here
@@ -124,45 +123,34 @@
         return allData;
     }
 
-    var getAllData = function() {
+    var getAllData = function () {
         return {
             records: getAllRecords(),
             relationships: getAllRelationships()
         };
     }
 
-    var getAllRelationships = function() {
+    var getAllRelationships = function () {
         localStorage.getItem('relationships');
         try {
             return JSON.parse(localStorage.getItem('relationships'));
         } catch (error) {
-             return [
-                { from: 'BBC News', to: 'Facebook' },
-                { from: 'CTO', to: 'Cambridge Analytics' }
+            return [
             ];
         }
     }
 
-    var getAllRecords = function() {
+    var getAllRecords = function () {
         try {
             return JSON.parse(localStorage.getItem('records'));
-        } catch(error){
+        } catch (error) {
             return [
-                { id: 'BBC News' },
-                { id: '7/21/2017' },
-                { id: '6/1/2017' },
-                { id: 'Facebook' },
-                { id: 'One trillion social media posts' },
-                { id: 'CTO' },
-                { id: 'Chris Bingham' },
-                { id: 'Crimson Hexagon' },
-                { id: 'Cambridge Analytics' },
-                { id: 'Zuckerberg testifies before Congress' },
+                { id: 'Kansas City' },
             ];
         }
     };
 
-    var displayTheseRecords = function(records) {
+    var displayTheseRecords = function (records) {
         nodesOnThePage = records.map(record => buildNodeFromRecord(record));
     }
 
@@ -180,8 +168,8 @@
                 size: defaultSize,
                 id: record.id,
                 shape: 'circle',
-                shapeProperties: { borderDashes:[5,5] },
-                label:  buildLabel(record.id),
+                shapeProperties: { borderDashes: [5, 5] },
+                label: buildLabel(record.id),
                 color: colorOptions,
                 widthConstraint: {
                     minimum: 120,
@@ -201,7 +189,7 @@
     }
 
     function buildLabel(text) {
-        if(text.length < 20) {
+        if (text.length < 20) {
             return text;
         } else {
             return text.substring(0, 20) + '...';
@@ -227,9 +215,9 @@
 
         var options = {
             layout: {
-                randomSeed:2
+                randomSeed: 2
             },
-            interaction:{hover:true},
+            interaction: { hover: true },
             manipulation: {
                 enabled: true
             },
@@ -250,22 +238,22 @@
             },
             locale: 'recollect',
             locales: {
-              recollect: {
-                edit: 'Edit',
-                del: 'Delete selected',
-                back: 'Back',
-                addNode: 'Blank Slate',
-                addEdge: 'Connect',
-                connectNodes: 'Associations',
-                editNode: 'Edit Node',
-                editEdge: 'Edit Edge',
-                addDescription: 'Click in an empty space to place a new node.',
-                edgeDescription: 'Click on a node and drag the edge to another node to connect them.',
-                editEdgeDescription: 'Click on the control points and drag them to a node to connect to it.',
-                createEdgeError: 'Cannot link edges to a cluster.',
-                deleteClusterError: 'Clusters cannot be deleted.',
-                editClusterError: 'Clusters cannot be edited.'
-              }
+                recollect: {
+                    edit: 'Edit',
+                    del: 'Delete selected',
+                    back: 'Back',
+                    addNode: 'Blank Slate',
+                    addEdge: 'Connect',
+                    connectNodes: 'Associations',
+                    editNode: 'Edit Node',
+                    editEdge: 'Edit Edge',
+                    addDescription: 'Click in an empty space to place a new node.',
+                    edgeDescription: 'Click on a node and drag the edge to another node to connect them.',
+                    editEdgeDescription: 'Click on the control points and drag them to a node to connect to it.',
+                    createEdgeError: 'Cannot link edges to a cluster.',
+                    deleteClusterError: 'Clusters cannot be deleted.',
+                    editClusterError: 'Clusters cannot be edited.'
+                }
             }
         };
 
@@ -280,7 +268,26 @@
     }
 
     function addRelationship(from, to) {
-        relationshipsOnThePage.add({from:from, to: to});
+        var data = { from: from, to: to };
+        relationshipsOnThePage.add(data);
+        saveAllDataOnThePage();
+    }
+
+    function removeRelationship(from, to) {
+        var relationshipsToRemove = [];
+        for (var i = 0; i < relationshipsOnThePage.length; i++) {
+            var relationship = relationshipsOnThePage[i];
+            if (relationship.from.toLowerCase() == from.toLowerCase() && relationship.to.toLowerCase() == to.ToLower())
+                relationshipsToRemove.push(relationship);
+            else if (relationship.to.toLowerCase() == from.toLowerCase() && relationship.from.toLowerCase() == to.ToLower())
+                relationshipsToRemove.push(relationship);
+        }
+        for (var i = 0; i < relationshipsToRemove.length; i++) {
+            var relationship = relationshipsToRemove[i];
+            relationshipsOnThePage.remove(relationship.id);
+        }
+
+        saveAllDataOnThePage();
     }
 
     startNetwork(getData);
@@ -288,17 +295,17 @@
     var attemptToSetUpVoiceCommunicationQuietly = function (actions) {
         try {
             attemptToSetUpVoiceCommunication(actions);
-        } catch (error) {}
+        } catch (error) { }
     }
 
-    var attemptToSetUpVoiceCommunication = function(actions) {
+    var attemptToSetUpVoiceCommunication = function (actions) {
         artyom = new Artyom();
 
         var active = false;
 
         var listenForRecollectCommands = {
             smart: true,
-            indexes: ["listen *", "stop listening *"],
+            indexes: ["listen *", "stop listening *", "add *", "connect *", "recollect *", "disconnect *"],
             action: function (i, value) {
                 if (i == 0) {
                     console.log("I'm listening");
@@ -309,31 +316,56 @@
                 }
                 if (active == false) return;
 
-                console.log(value);
-
                 if (i == 2) {
                     console.log('adding ' + value);
                     actions.add(i, value);
+                } else if (i == 3) {
+                    console.log('connecting ' + value);
+                    actions.connect(i, value);
+                } else if (i == 4) {
+                    console.log('recollecting ' + value);
+                    actions.recollect(i, value);
+                }  else if (i == 5) {
+                    console.log('disconnecting ' + value);
+                    actions.disconnect(i, value);
                 }
             }
         };
 
+        var listenForClearCommands = {
+            indexes: ["clear my mind", "show nothing", "blank slate"],
+            action: function () {
+                if (active == false) return;
+                removeAllNodesFromView();
+            }
+        };
+
+        var listenForShowEverythingCommands = {
+            indexes: ["show everything", "start over"],
+            action: function () {
+                if (active == false) return;
+                bringAllNodesIntoView();
+            }
+        };
+
         artyom.addCommands(listenForRecollectCommands);
+        artyom.addCommands(listenForClearCommands);
+        artyom.addCommands(listenForShowEverythingCommands);
 
         function startContinuousArtyom() {
             artyom.fatality();
 
             setTimeout(function () {
-                    artyom.initialize({
-                        lang: "en-GB",
-                        continuous: true,
-                        listen: true,
-                        debug: false,
-                        speed: 1
-                    }).then(function () {
-                        console.log("artyom loaded!");
-                    });
-                },
+                artyom.initialize({
+                    lang: "en-GB",
+                    continuous: true,
+                    listen: true,
+                    debug: true,
+                    speed: 1
+                }).then(function () {
+                    console.log("artyom loaded!");
+                });
+            },
                 250);
         }
 
@@ -342,13 +374,24 @@
 
     attemptToSetUpVoiceCommunication({
         add: function (i, value) {
-            $("#newThing").val(value);
+            //$("#recollect-text-input").val(value);
             addNode(value);
         },
         connect: function (i, value) {
-            //darren
-            console.log(value);
-            //relationshipsOnThePage.add({})
+            var params = value.split(' to ');
+            if (params.length == 2) {
+                addRelationship(params[0], params[1]);
+            }
+        },
+        recollect: function (i, value) {
+            $("#recollect-text-input").val(value);
+            bringForward(value);
+        },
+        disconnect: function (i, value) {
+            var params = value.split(' from ');
+            if (params.length == 2) {
+                removeRelationship(params[0], params[1]);
+            }
         },
     });
 
