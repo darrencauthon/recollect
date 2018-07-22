@@ -276,7 +276,7 @@
     var clusters = [];
 
     function addNode(id) {
-        nodesOnThePage.add({id:id, label:id, shape: 'box'});
+        nodesOnThePage.add(buildNodeFromRecord({ id: id }));
     }
 
     function addRelationship(from, to) {
