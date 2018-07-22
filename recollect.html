@@ -71,7 +71,7 @@
             console.log('Before saving, records:', JSON.parse(localStorage.getItem('records')));
             console.log('Before saving, relationships', JSON.parse(localStorage.getItem('relationships')));
         } catch (error) {
-            // ignore
+            // 
         }
         localStorage.setItem('records', JSON.stringify(allData.records));
         var relationships = _.map(relationshipsOnThePage._data, (record) => {
@@ -257,6 +257,48 @@
     }
 
     startNetwork(getData);
+
+    var attemptToSetUpVoiceCommunicationQuietly = function (action) {
+        try {
+            attemptToSetUpVoiceCommunication(action);
+        } catch (error) {}
+    }
+
+    var attemptToSetUpVoiceCommunication = function(action) {
+        artyom = new Artyom();
+
+        var listenForRecollectCommands = {
+            smart: true,
+            indexes: ["recollect *"],
+            action: action
+        };
+
+        artyom.addCommands(listenForRecollectCommands);
+
+        function startContinuousArtyom() {
+            artyom.fatality();
+
+            setTimeout(function () {
+                    artyom.initialize({
+                        lang: "en-GB",
+                        continuous: true,
+                        listen: true,
+                        debug: false,
+                        speed: 1
+                    }).then(function () {
+                        console.log("artyom loaded!");
+                    });
+                },
+                250);
+        }
+
+        startContinuousArtyom();
+    }
+
+    attemptToSetUpVoiceCommunication(function(i, value) {
+        $("#newThing").val(value);
+        addNode(value);
+    });
 
     //function changeNode1() {
     //    var newColor = '#' + Math.floor((Math.random() * 255 * 255 * 255)).toString(16);
