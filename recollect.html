@@ -35,6 +35,13 @@
     var THIRD_LEVEL_BG_COLOR_CODE = '#f4d035';
     var THIRD_LEVEL_FG_COLOR_CODE = '#000';
 
+    var DEFAULT_CIRCLE_BORDER_COLOR = '#5d5d5d';
+    var DEFAULT_CIRCLE_BACKGROUND_COLOR = '#ccc';
+
+    var HIGHLIGHT_BG_COLOR = 'pink';
+    var HIGHLIGHT_FG_COLOR = 'black';
+
+
     var nodesOnThePage;
     var relationshipsOnThePage;
 
@@ -144,11 +151,11 @@
         nodesOnThePage = records.map(record => buildNodeFromRecord(record));
     }
 
-    const defaultColor = { border: '#5d5d5d', background: '#ccc' };
+    const defaultColor = { border: DEFAULT_CIRCLE_BORDER_COLOR, background: DEFAULT_CIRCLE_BACKGROUND_COLOR };
     function buildNodeFromRecord(record) {
         record.options = record.options || {};
 
-        var colorOptions = _.extend({ border: '#5d5d5d', background: '#ccc' }, record.options.color);
+        var colorOptions = _.extend({ border: DEFAULT_CIRCLE_BORDER_COLOR, background: DEFAULT_CIRCLE_BACKGROUND_COLOR }, record.options.color);
         delete record.options.color;
 
         var options = _.extend(

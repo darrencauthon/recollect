@@ -1,4 +1,3 @@
-var newColor = 'orange';
 $(document).ready(() => {
   $('#blank-slate-button').click(() => {
     removeAllNodesFromView();
@@ -157,8 +156,8 @@ function highlightNodes(searchTerm) {
   nodesOnThePage.update(nodeIdsToUpdate.map(id => {
     return {
       id: id,
-      color: { background: newColor },
-      font: { size: 20 }
+      color: { background: HIGHLIGHT_BG_COLOR },
+      font: { size: 20, color: HIGHLIGHT_FG_COLOR }
     };
   }));
 }
