@@ -88,7 +88,13 @@ function bringForward(searchTerm) {
   const recordsLinkedBySkippingOne = findRecordsLinkedToThese(recordsLinkedDirectly);
 
   _.each(exactRecordMatches, record => {
-    record.options = { color: { border: FIRST_LEVEL_BORDER_COLOR_CODE, background: FIRST_LEVEL_BG_COLOR_CODE }, font: { size: FIRST_LEVEL_FONT_SIZE, color: FIRST_LEVEL_FG_COLOR_CODE } };
+    record.options = {
+      color: {
+        border: FIRST_LEVEL_BORDER_COLOR_CODE,
+        background: FIRST_LEVEL_BG_COLOR_CODE
+      },
+      font: { size: FIRST_LEVEL_FONT_SIZE, color: FIRST_LEVEL_FG_COLOR_CODE }
+    };
     addRecordToNodesOnThePage(record);
   });
   _.each(recordsLinkedDirectly, record => {
