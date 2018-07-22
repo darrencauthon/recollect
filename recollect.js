@@ -1,5 +1,13 @@
 var newColor = 'orange';
 $(document).ready(() => {
+  $('#blank-slate-button').click(() => {
+    removeAllNodesFromView();
+  });
+
+  $('#all-connections-button').click(() => {
+    bringAllNodesIntoView();
+  });
+
   inputNetwork.on('click', function (params) {
     if(params.nodes.length > 0) {
       var nodeId = params.nodes[0];
@@ -8,27 +16,25 @@ $(document).ready(() => {
     }
   });
 
-  $('#recollect-text-input, #newThing').keyup((el) => {
-    const searchTerm = $(el.target).val().toLowerCase();
-    highlightNodes(searchTerm);
-  });
-
   $('#update-nodes').click(() => {
     const searchTerm = $('#recollect-text-input').val().toLowerCase();
     bringForward(searchTerm);
   });
 
-  $('#newThing').keypress(event => {
-    const typedTerm = $('#newThing').val();
+  $('#recollect-text-input').keyup(event => {
+    const typedTerm = $('#recollect-text-input').val();
     const ENTER = 13;
 
     if (event.which === ENTER) {
       if (findMatchingNodeIds(typedTerm).length === 0) {
         addNode(typedTerm);
-        $('#newThing').val('');
+        $('#recollect-text-input').val('');
       } else {
         bringForward(typedTerm);
       }
+    } else {
+      const searchTerm = typedTerm.toLowerCase();
+      highlightNodes(searchTerm);
     }
   });
 });
@@ -59,10 +65,22 @@ function contractTextForAllNodes() {
   });
 }
 
-function bringForward(searchTerm) {
+function removeAllNodesFromView() {
   _.each(nodesOnThePage._data, node => {
     nodesOnThePage.remove(node);
   });
+}
+
+function bringAllNodesIntoView() {
+  _.each(getAllData().records, record => {
+    const node = buildNodeFromRecord(record);
+    nodesOnThePage.remove(node);
+    nodesOnThePage.add(node);
+  });
+}
+
+function bringForward(searchTerm) {
+  removeAllNodesFromView();
 
   const exactRecordMatches = _.filter(getAllData().records, record => {
     return record.id.toLowerCase().search(searchTerm.toLowerCase()) > -1;

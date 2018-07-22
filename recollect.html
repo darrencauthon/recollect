@@ -11,14 +11,20 @@
     <link href="style.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 
+<input id="recollect-text-input" type="text" value="" placeholder="(Re)collect...">
+<div class="btn-group">
+    <button id="all-connections-button">All Connections</button>
+    <button id="blank-slate-button">Blank Slate</button>
+</div>
+<br style="clear: both;" />
+<div id="recollect-input" class="network"></div>
+
+
+<button id='update-nodes'>Bring Forward</button>
+
 <input type="button" onclick="localStorage.setItem('records', undefined);localStorage.setItem('relationships', undefined)" value="clear your local store">
 <input type="button" onclick="saveAllDataOnThePage()" value="save all changes">
 
-<div id="recollect-input" class="network"></div>
-<input id="newThing" type="text" value="" placeholder="Steve Jobs...">
-
-<input id='recollect-text-input' placeholder="" />
-<button id='update-nodes'>Bring Forward</button>
 
 <script type="text/javascript">
 
@@ -204,7 +210,7 @@
                     "springLength": 0,
                     "springConstant": 0,
                     "damping": 1,
-                    "avoidOverlap": .1
+                    "avoidOverlap": 1
                 },
                 "maxVelocity": 8,
                 "minVelocity": 0.75

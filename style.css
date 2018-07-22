@@ -1,21 +1,50 @@
+body {
+  overflow: hidden;
+}
 .network {
-    width: 90vw;
-    height: 90vh;
-    border: 1px solid lightgray;
+  display: block;
+  float: left;
+  clear: left;
+  width: calc(100vw - 1rem);
+  height: calc(90vh - 8rem);
+  border: 1px solid lightgray;
+  margin-top: 1rem;
+  display:block;
 }
 
-p {
-    max-width:600px;
-}
-
-h4 {
-    margin-bottom:3px;
-}
-
-#newThing {
+#recollect-text-input {
+  display: block;
+  float: left;
+  clear: left;
   border: 1px solid #616161;
-  width: 100%;
+  width: calc(50vw - 1rem);
   text-align: center;
-  height: 10%;
+  height: 8rem;
   font-size: 5rem;
+}
+
+.btn-group {
+  float: left;
+  width: 10rem;
+  height: 8rem;
+}
+
+.btn-group button {
+    background-color: #4CAF50;
+    border: 1px solid #ccc;
+    color: white;
+    cursor: pointer;
+    width: 50%;
+    display: block;
+    height: 3.5rem;
+}
+
+.btn-group button:not(:last-child) {
+    border-bottom: none; /* Prevent double borders */
+    margin-bottom: 1rem;
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+    background-color: #3e8e41;
 }
