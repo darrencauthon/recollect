@@ -134,8 +134,10 @@
         return _.extend(
             {
                 id: record.id,
-                shape: 'box',
+                shape: 'circle',
+                shapeProperties: { borderDashes:[5,5] },
                 label:  buildLabel(record.id),
+                color: { border: '#5d5d5d', background: '#ccc' },
                 widthConstraint: {
                     minimum: 120,
                     maximum: 120
@@ -143,7 +145,8 @@
                 heightConstraint: {
                     minimum: 30,
                     maximum: 40
-                }
+                },
+                font: { align: 'center' }
             },
             record.options
         );
