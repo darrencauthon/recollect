@@ -265,13 +265,13 @@
 
     startNetwork(getData);
 
-    var attemptToSetUpVoiceCommunicationQuietly = function (action) {
+    var attemptToSetUpVoiceCommunicationQuietly = function (actions) {
         try {
-            attemptToSetUpVoiceCommunication(action);
+            attemptToSetUpVoiceCommunication(actions);
         } catch (error) {}
     }
 
-    var attemptToSetUpVoiceCommunication = function(action) {
+    var attemptToSetUpVoiceCommunication = function(actions) {
         artyom = new Artyom();
 
         var active = false;
@@ -288,6 +288,11 @@
                     active = false;
                 }
                 if (active == false) return;
+
+                if (i == 2) {
+                    console.log('adding ' + value);
+                    actions.add(i, value);
+                }
             }
         };
 
@@ -313,9 +318,11 @@
         startContinuousArtyom();
     }
 
-    attemptToSetUpVoiceCommunication(function(i, value) {
-        $("#newThing").val(value);
-        addNode(value);
+    attemptToSetUpVoiceCommunication({
+        add: function (i, value) {
+            $("#newThing").val(value);
+            addNode(value);
+        }
     });
 
     //function changeNode1() {
