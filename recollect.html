@@ -72,8 +72,12 @@
             if (recordsForQuerying.get(record.id) == undefined)
                 allData.records.push(record);
         }
-        console.log('Before saving, records:', JSON.parse(localStorage.getItem('records')));
-        console.log('Before saving, relationships', JSON.parse(localStorage.getItem('relationships')));
+        try {
+            console.log('Before saving, records:', JSON.parse(localStorage.getItem('records')));
+            console.log('Before saving, relationships', JSON.parse(localStorage.getItem('relationships')));
+        } catch (error) {
+            // ignore
+        }
         localStorage.setItem('records', JSON.stringify(allData.records));
         var relationships = _.map(relationshipsOnThePage._data, (record) => {
             return { from: record.from, to: record.to }
