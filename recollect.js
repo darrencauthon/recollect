@@ -30,6 +30,7 @@ $(document).ready(() => {
         $('#recollect-text-input').val('');
       } else {
         bringForward(typedTerm);
+        $('#recollect-text-input').val('');
       }
     } else {
       const searchTerm = typedTerm.toLowerCase();
