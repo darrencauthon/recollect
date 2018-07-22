@@ -321,6 +321,14 @@
             }
         };
 
+        var listenForShowEverythingCommands = {
+            indexes: ["show everything", "start over"],
+            action: function () {
+                if (active == false) return;
+                bringAllNodesIntoView();
+            }
+        };
+
         artyom.addCommands(listenForRecollectCommands);
         artyom.addCommands(listenForClearCommands);
 
