@@ -53,6 +53,16 @@
     var HIGHLIGHT_FG_COLOR = 'white';
 
 
+    var recollectedTerms = [];
+
+    function addToRecollectedTerms(term) {
+        recollectedTerms.push(term);
+    }
+
+    function clearRecollectedTerms() {
+        recollectedTerms = [];
+    }
+
     var nodesOnThePage;
     var relationshipsOnThePage;
 
@@ -160,7 +170,7 @@
         record.options = record.options || {};
 
         var colorOptions = _.extend({ border: DEFAULT_CIRCLE_BORDER_COLOR, background: DEFAULT_CIRCLE_BACKGROUND_COLOR }, record.options.color);
-        var fontOptions = _.extend({ vadjust: 0, align: 'center', size: defaultSize }, record.options.font);
+        var fontOptions = _.extend({ vadjust: 0, align: 'center', size: defaultSize, color: 'black' }, record.options.font);
         delete record.options.color;
 
         var options = _.extend(

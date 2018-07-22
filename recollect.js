@@ -1,9 +1,11 @@
 $(document).ready(() => {
   $('#blank-slate-button').click(() => {
+    clearRecollectedTerms();
     removeAllNodesFromView();
   });
 
   $('#all-connections-button').click(() => {
+    clearRecollectedTerms();
     bringAllNodesIntoView();
   });
 
@@ -29,7 +31,8 @@ $(document).ready(() => {
         addNode(typedTerm);
         $('#recollect-text-input').val('');
       } else {
-        bringForward(typedTerm);
+        recollectedTerms.push(typedTerm);
+        bringForward(recollectedTerms);
         $('#recollect-text-input').val('');
       }
     } else {
@@ -79,14 +82,24 @@ function bringAllNodesIntoView() {
   });
 }
 
-function bringForward(searchTerm) {
+function searchTextFor(haystack, needle) {
+  return haystack.toLowerCase().search(needle.toLowerCase()) > -1;
+}
+
+function bringForward(searchTerms) {
   removeAllNodesFromView();
 
-  const exactRecordMatches = _.filter(getAllData().records, record => {
-    return record.id.toLowerCase().search(searchTerm.toLowerCase()) > -1;
+  let exactRecordMatches = []
+  let recordsLinkedDirectly = [];
+  let recordsLinkedBySkippingOne = [];
+
+  _.each(searchTerms, searchTerm => {
+    exactRecordMatches = exactRecordMatches.concat(_.filter(getAllData().records, record => {
+      return searchTextFor(record.id, searchTerm);
+    }))
+    recordsLinkedDirectly = recordsLinkedDirectly.concat(findRecordsLinkedToThese(exactRecordMatches));
+    recordsLinkedBySkippingOne = recordsLinkedBySkippingOne.concat(findRecordsLinkedToThese(recordsLinkedDirectly));
   });
-  const recordsLinkedDirectly = findRecordsLinkedToThese(exactRecordMatches);
-  const recordsLinkedBySkippingOne = findRecordsLinkedToThese(recordsLinkedDirectly);
 
   _.each(exactRecordMatches, record => {
     record.options = {
@@ -102,7 +115,6 @@ function bringForward(searchTerm) {
     record.options = { color: { border: SECOND_LEVEL_BORDER_COLOR_CODE, background: SECOND_LEVEL_BG_COLOR_CODE }, font: { size: SECOND_LEVEL_FONT_SIZE, color: SECOND_LEVEL_FG_COLOR_CODE } };
     addRecordToNodesOnThePage(record);
   });
-
   _.each(recordsLinkedBySkippingOne, record => {
     record.options = { color: { border: THIRD_LEVEL_BORDER_COLOR_CODE, background: THIRD_LEVEL_BG_COLOR_CODE }, font: { size: SECOND_LEVEL_FONT_SIZE, color: THIRD_LEVEL_FG_COLOR_CODE } };
     addRecordToNodesOnThePage(record);
@@ -137,8 +149,18 @@ function bringForward(searchTerm) {
 }
 
 function findMatchingNodeIds(searchTerm) {
+  var nodeIdsToUpdate = _.filter(_.pluck(getAllData().records, 'id'), (id) => {
+    if (searchTerm.length > 0 && searchTextFor(id, searchTerm)) {
+      return id;
+    }
+  });
+
+  return nodeIdsToUpdate;
+}
+
+function findMatchingVisibleNodeIds(searchTerm) {
   var nodeIdsToUpdate = _.filter(_.keys(nodesOnThePage._data), (id) => {
-    if (searchTerm.length > 0 && id.toLowerCase().search(searchTerm.toLowerCase()) > -1) {
+    if (searchTerm.length > 0 && searchTextFor(id, searchTerm)) {
       return id;
     }
   });
@@ -152,12 +174,13 @@ function findRecordById(id) {
 
 
 function highlightNodes(searchTerm) {
-  var nodeIdsToUpdate = findMatchingNodeIds(searchTerm);
+  var nodeIdsToUpdate = findMatchingVisibleNodeIds(searchTerm);
 
   nodesOnThePage.update(_.keys(nodesOnThePage._data).map(id => {
     return {
       id: id,
-      color: defaultColor
+      color: defaultColor,
+      font: { color: 'black', size: 20 }
     };
   }));
   nodesOnThePage.update(nodeIdsToUpdate.map(id => {
