@@ -1,14 +1,14 @@
+function showBlankSlate() {
+  clearRecollectedTerms();
+  removeAllNodesFromView();
+}
+
+function showAllConnections() {
+  clearRecollectedTerms();
+  bringAllNodesIntoView();
+}
+
 $(document).ready(() => {
-  $('#blank-slate-button').click(() => {
-    clearRecollectedTerms();
-    removeAllNodesFromView();
-  });
-
-  $('#all-connections-button').click(() => {
-    clearRecollectedTerms();
-    bringAllNodesIntoView();
-  });
-
   inputNetwork.on('click', function (params) {
     if(params.nodes.length > 0) {
       var nodeId = params.nodes[0];

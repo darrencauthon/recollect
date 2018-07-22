@@ -58383,7 +58383,7 @@ var ManipulationSystem = function () {
 
       // this._temporaryBindEvent('click', this._performAddNode.bind(this));
       // this._performAddNode.bind(this)
-      removeAllNodesFromView();
+      showBlankSlate();
     }
 
     /**
@@ -58477,7 +58477,7 @@ var ManipulationSystem = function () {
     key: 'connectNodesMode',
     value: function connectNodesMode() {
       // when using the gui, enable edit mode if it wasn't already.
-      bringAllNodesIntoView();
+      showAllConnections();
     }
   }, {
     key: 'editEdgeMode',
