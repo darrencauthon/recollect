@@ -269,9 +269,8 @@
 
     function addRelationship(from, to) {
         var data = { from: from, to: to };
-        console.log(data);
-        console.log(relationshipsOnThePage);
         relationshipsOnThePage.add(data);
+        saveAllDataOnThePage();
     }
 
     startNetwork(getData);
@@ -314,7 +313,16 @@
             }
         };
 
+        var listenForClearCommands = {
+            indexes: ["clear my mind", "show nothing"],
+            action: function () {
+                if (active == false) return;
+                removeAllNodesFromView();
+            }
+        };
+
         artyom.addCommands(listenForRecollectCommands);
+        artyom.addCommands(listenForClearCommands);
 
         function startContinuousArtyom() {
             artyom.fatality();
