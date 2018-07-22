@@ -300,7 +300,7 @@
 
         var listenForRecollectCommands = {
             smart: true,
-            indexes: ["listen *", "stop listening *", "add *", "connect *"],
+            indexes: ["listen *", "stop listening *", "add *", "connect *", "recollect *"],
             action: function (i, value) {
                 if (i == 0) {
                     console.log("I'm listening");
@@ -316,11 +316,14 @@
                 if (i == 2) {
                     console.log('adding ' + value);
                     actions.add(i, value);
-                } else (i == 3)
-                {
+                } else if (i == 3) {
                     console.log('connecting ' + value);
                     actions.connect(i, value);
+                } else if (i == 4) {
+                    console.log('recollecting ' + value);
+                    //actions.connect(i, value);
                 }
+
             }
         };
 
@@ -348,7 +351,7 @@
 
     attemptToSetUpVoiceCommunication({
         add: function (i, value) {
-            $("#newThing").val(value);
+            //$("#recollect-text-input").val(value);
             addNode(value);
         },
         connect: function (i, value) {
@@ -357,6 +360,9 @@
                 addRelationship(params[0], params[1]);
             }
         },
+        recollect: function (i, value) {
+            $("#recollect-text-input").val(value);
+        }
     });
 
     //function changeNode1() {
