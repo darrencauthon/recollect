@@ -88,16 +88,16 @@ function bringForward(searchTerm) {
   const recordsLinkedBySkippingOne = findRecordsLinkedToThese(recordsLinkedDirectly);
 
   _.each(exactRecordMatches, record => {
-    record.options = { color: { background: FIRST_LEVEL_BG_COLOR_CODE }, font: { color: FIRST_LEVEL_FG_COLOR_CODE } };
+    record.options = { color: { border: FIRST_LEVEL_BORDER_COLOR_CODE, background: FIRST_LEVEL_BG_COLOR_CODE }, font: { size: FIRST_LEVEL_FONT_SIZE, color: FIRST_LEVEL_FG_COLOR_CODE } };
     addRecordToNodesOnThePage(record);
   });
   _.each(recordsLinkedDirectly, record => {
-    record.options = { color: { background: SECOND_LEVEL_BG_COLOR_CODE }, font: { color: SECOND_LEVEL_FG_COLOR_CODE } };
+    record.options = { color: { border: SECOND_LEVEL_BORDER_COLOR_CODE, background: SECOND_LEVEL_BG_COLOR_CODE }, font: { size: SECOND_LEVEL_FONT_SIZE, color: SECOND_LEVEL_FG_COLOR_CODE } };
     addRecordToNodesOnThePage(record);
   });
 
   _.each(recordsLinkedBySkippingOne, record => {
-    record.options = { color: { background: THIRD_LEVEL_BG_COLOR_CODE }, font: { color: THIRD_LEVEL_FG_COLOR_CODE } };
+    record.options = { color: { border: THIRD_LEVEL_BORDER_COLOR_CODE, background: THIRD_LEVEL_BG_COLOR_CODE }, font: { size: SECOND_LEVEL_FONT_SIZE, color: THIRD_LEVEL_FG_COLOR_CODE } };
     addRecordToNodesOnThePage(record);
   });
 
@@ -156,8 +156,8 @@ function highlightNodes(searchTerm) {
   nodesOnThePage.update(nodeIdsToUpdate.map(id => {
     return {
       id: id,
-      color: { background: HIGHLIGHT_BG_COLOR },
-      font: { size: 20, color: HIGHLIGHT_FG_COLOR }
+      color: { background: HIGHLIGHT_BG_COLOR, border: HIGHLIGHT_BORDER_COLOR },
+      font: { size: HIGHLIGHT_FONT_SIZE, color: HIGHLIGHT_FG_COLOR }
     };
   }));
 }

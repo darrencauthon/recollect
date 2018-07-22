@@ -28,16 +28,26 @@
 
 <script type="text/javascript">
 
+    var FIRST_LEVEL_FONT_SIZE = 30;
+    var FIRST_LEVEL_BORDER_COLOR_CODE = '#5d5d5d';
     var FIRST_LEVEL_BG_COLOR_CODE = '#40395f';
     var FIRST_LEVEL_FG_COLOR_CODE = '#fff';
+
+    var SECOND_LEVEL_FONT_SIZE = 20;
+    var SECOND_LEVEL_BORDER_COLOR_CODE = '#5d5d5d';
     var SECOND_LEVEL_BG_COLOR_CODE = '#f68a1e';
     var SECOND_LEVEL_FG_COLOR_CODE = '#000';
+
+    var THIRD_LEVEL_FONT_SIZE = 20;
+    var THIRD_LEVEL_BORDER_COLOR_CODE = '#5d5d5d';
     var THIRD_LEVEL_BG_COLOR_CODE = '#f4d035';
     var THIRD_LEVEL_FG_COLOR_CODE = '#000';
 
     var DEFAULT_CIRCLE_BORDER_COLOR = '#5d5d5d';
     var DEFAULT_CIRCLE_BACKGROUND_COLOR = '#ccc';
 
+    var HIGHLIGHT_BORDER_COLOR = 'red';
+    var HIGHLIGHT_FONT_SIZE = 20;
     var HIGHLIGHT_BG_COLOR = 'pink';
     var HIGHLIGHT_FG_COLOR = 'black';
 
@@ -152,10 +162,12 @@
     }
 
     const defaultColor = { border: DEFAULT_CIRCLE_BORDER_COLOR, background: DEFAULT_CIRCLE_BACKGROUND_COLOR };
+    const defaultSize = 20;
     function buildNodeFromRecord(record) {
         record.options = record.options || {};
 
         var colorOptions = _.extend({ border: DEFAULT_CIRCLE_BORDER_COLOR, background: DEFAULT_CIRCLE_BACKGROUND_COLOR }, record.options.color);
+        var fontOptions = _.extend({ align: 'center', size: defaultSize }, record.options.font);
         delete record.options.color;
 
         var options = _.extend(
@@ -173,7 +185,7 @@
                     minimum: 30,
                     maximum: 40
                 },
-                font: { align: 'center' }
+                font: fontOptions
             },
             record.options
         );
