@@ -42935,6 +42935,9 @@ Network.prototype.addEdgeMode = function () {
 Network.prototype.editEdgeMode = function () {
   return this.manipulation.editEdgeMode.apply(this.manipulation, arguments);
 };
+Network.prototype.connectNodesMode = function () {
+  return this.manipulation.connectNodesMode.apply(this.manipulation, arguments);
+};
 Network.prototype.deleteSelected = function () {
   return this.manipulation.deleteSelected.apply(this.manipulation, arguments);
 };
@@ -58297,6 +58300,9 @@ var ManipulationSystem = function () {
           this._createAddNodeButton(locale);
           needSeperator = true;
         }
+        this._createSeperator(3);
+        this._createConnectNodesButton(locale);
+
         if (this.options.addEdge !== false) {
           if (needSeperator === true) {
             this._createSeperator(1);
@@ -58440,28 +58446,27 @@ var ManipulationSystem = function () {
       }
 
       // restore the state of any bound functions or events, remove control nodes, restore physics
-      // this._clean();
+      this._clean();
 
-      // this.inMode = 'addEdge';
-      // if (this.guiEnabled === true) {
-      //   var locale = this.options.locales[this.options.locale];
-      //   this.manipulationDOM = {};
-      //   this._createBackButton(locale);
-      //   this._createSeperator();
-      //   this._createDescription(locale['edgeDescription'] || this.options.locales['en']['edgeDescription']);
+      this.inMode = 'addEdge';
+      if (this.guiEnabled === true) {
+        var locale = this.options.locales[this.options.locale];
+        this.manipulationDOM = {};
+        this._createBackButton(locale);
+        this._createSeperator();
+        this._createDescription(locale['edgeDescription'] || this.options.locales['en']['edgeDescription']);
 
-      //   // bind the close button
-      //   this._bindHammerToDiv(this.closeDiv, this.toggleEditMode.bind(this));
-      // }
+        // bind the close button
+        this._bindHammerToDiv(this.closeDiv, this.toggleEditMode.bind(this));
+      }
 
-      // // temporarily overload functions
-      // this._temporaryBindUI('onTouch', this._handleConnect.bind(this));
-      // this._temporaryBindUI('onDragEnd', this._finishConnect.bind(this));
-      // this._temporaryBindUI('onDrag', this._dragControlNode.bind(this));
-      // this._temporaryBindUI('onRelease', this._finishConnect.bind(this));
-      // this._temporaryBindUI('onDragStart', this._dragStartEdge.bind(this));
-      // this._temporaryBindUI('onHold', function () {});
-      bringAllNodesIntoView();
+      // temporarily overload functions
+      this._temporaryBindUI('onTouch', this._handleConnect.bind(this));
+      this._temporaryBindUI('onDragEnd', this._finishConnect.bind(this));
+      this._temporaryBindUI('onDrag', this._dragControlNode.bind(this));
+      this._temporaryBindUI('onRelease', this._finishConnect.bind(this));
+      this._temporaryBindUI('onDragStart', this._dragStartEdge.bind(this));
+      this._temporaryBindUI('onHold', function () {});
     }
 
     /**
@@ -58469,79 +58474,15 @@ var ManipulationSystem = function () {
      */
 
   }, {
+    key: 'connectNodesMode',
+    value: function connectNodesMode() {
+      // when using the gui, enable edit mode if it wasn't already.
+      bringAllNodesIntoView();
+    }
+  }, {
     key: 'editEdgeMode',
     value: function editEdgeMode() {
-      // when using the gui, enable edit mode if it wasn't already.
-      if (this.editMode !== true) {
-        this.enableEditMode();
-      }
-
-      // restore the state of any bound functions or events, remove control nodes, restore physics
-      this._clean();
-
-      this.inMode = 'editEdge';
-      if ((0, _typeof3['default'])(this.options.editEdge) === 'object' && typeof this.options.editEdge.editWithoutDrag === "function") {
-        this.edgeBeingEditedId = this.selectionHandler.getSelectedEdges()[0];
-        if (this.edgeBeingEditedId !== undefined) {
-          var edge = this.body.edges[this.edgeBeingEditedId];
-          this._performEditEdge(edge.from, edge.to);
-          return;
-        }
-      }
-      if (this.guiEnabled === true) {
-        var locale = this.options.locales[this.options.locale];
-        this.manipulationDOM = {};
-        this._createBackButton(locale);
-        this._createSeperator();
-        this._createDescription(locale['editEdgeDescription'] || this.options.locales['en']['editEdgeDescription']);
-
-        // bind the close button
-        this._bindHammerToDiv(this.closeDiv, this.toggleEditMode.bind(this));
-      }
-
-      this.edgeBeingEditedId = this.selectionHandler.getSelectedEdges()[0];
-      if (this.edgeBeingEditedId !== undefined) {
-        var _edge = this.body.edges[this.edgeBeingEditedId];
-
-        // create control nodes
-        var controlNodeFrom = this._getNewTargetNode(_edge.from.x, _edge.from.y);
-        var controlNodeTo = this._getNewTargetNode(_edge.to.x, _edge.to.y);
-
-        this.temporaryIds.nodes.push(controlNodeFrom.id);
-        this.temporaryIds.nodes.push(controlNodeTo.id);
-
-        this.body.nodes[controlNodeFrom.id] = controlNodeFrom;
-        this.body.nodeIndices.push(controlNodeFrom.id);
-        this.body.nodes[controlNodeTo.id] = controlNodeTo;
-        this.body.nodeIndices.push(controlNodeTo.id);
-
-        // temporarily overload UI functions, cleaned up automatically because of _temporaryBindUI
-        this._temporaryBindUI('onTouch', this._controlNodeTouch.bind(this)); // used to get the position
-        this._temporaryBindUI('onTap', function () {}); // disabled
-        this._temporaryBindUI('onHold', function () {}); // disabled
-        this._temporaryBindUI('onDragStart', this._controlNodeDragStart.bind(this)); // used to select control node
-        this._temporaryBindUI('onDrag', this._controlNodeDrag.bind(this)); // used to drag control node
-        this._temporaryBindUI('onDragEnd', this._controlNodeDragEnd.bind(this)); // used to connect or revert control nodes
-        this._temporaryBindUI('onMouseMove', function () {}); // disabled
-
-        // create function to position control nodes correctly on movement
-        // automatically cleaned up because we use the temporary bind
-        this._temporaryBindEvent('beforeDrawing', function (ctx) {
-          var positions = _edge.edgeType.findBorderPositions(ctx);
-          if (controlNodeFrom.selected === false) {
-            controlNodeFrom.x = positions.from.x;
-            controlNodeFrom.y = positions.from.y;
-          }
-          if (controlNodeTo.selected === false) {
-            controlNodeTo.x = positions.to.x;
-            controlNodeTo.y = positions.to.y;
-          }
-        });
-
-        this.body.emitter.emit('_redraw');
-      } else {
-        this.showManipulatorToolbar();
-      }
+      bringAllNodesIntoView();
     }
 
     /**
@@ -58884,6 +58825,20 @@ var ManipulationSystem = function () {
       var button = this._createButton('editEdge', 'vis-button vis-edit', locale['editEdge'] || this.options.locales['en']['editEdge']);
       this.manipulationDiv.appendChild(button);
       this._bindHammerToDiv(button, this.editEdgeMode.bind(this));
+    }
+
+    /**
+     *
+     * @param {Locale} locale
+     * @private
+     */
+
+  }, {
+    key: '_createConnectNodesButton',
+    value: function _createConnectNodesButton(locale) {
+      var button = this._createButton('connectNodes', 'vis-button vis-edit', locale['connectNodes'] || this.options.locales['en']['editEdge']);
+      this.manipulationDiv.appendChild(button);
+      this._bindHammerToDiv(button, this.connectNodesMode.bind(this));
     }
 
     /**
