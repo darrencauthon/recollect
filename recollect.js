@@ -65,16 +65,16 @@ function bringForward(searchTerm) {
   const recordsLinkedBySkippingOne = findRecordsLinkedToThese(recordsLinkedDirectly);
 
   _.each(exactRecordMatches, record => {
-    record.options = { color: { background: 'orange' } };
+    record.options = { color: { background: 'dark blue' } };
     addRecordToNodesOnThePage(record);
   });
   _.each(recordsLinkedDirectly, record => {
-    record.options = { color: { background: '#42d242' } };
+    record.options = { color: { background: 'orange' } };
     addRecordToNodesOnThePage(record);
   });
 
   _.each(recordsLinkedBySkippingOne, record => {
-    record.options = { color: { background: 'tan' } };
+    record.options = { color: { background: 'yellow' } };
     addRecordToNodesOnThePage(record);
   });
 
@@ -127,8 +127,7 @@ function highlightNodes(searchTerm) {
   nodesOnThePage.update(_.keys(nodesOnThePage._data).map(id => {
     return {
       id: id,
-      color: null,
-      font: null,
+      color: defaultColor
     };
   }));
   nodesOnThePage.update(nodeIdsToUpdate.map(id => {

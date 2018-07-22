@@ -130,14 +130,20 @@
         nodesOnThePage = records.map(record => buildNodeFromRecord(record));
     }
 
+    const defaultColor = { border: '#5d5d5d', background: '#ccc' };
     function buildNodeFromRecord(record) {
-        return _.extend(
+        record.options = record.options || {};
+
+        var colorOptions = _.extend({ border: '#5d5d5d', background: '#ccc' }, record.options.color);
+        delete record.options.color;
+
+        var options = _.extend(
             {
                 id: record.id,
                 shape: 'circle',
                 shapeProperties: { borderDashes:[5,5] },
                 label:  buildLabel(record.id),
-                color: { border: '#5d5d5d', background: '#ccc' },
+                color: colorOptions,
                 widthConstraint: {
                     minimum: 120,
                     maximum: 120
@@ -150,6 +156,8 @@
             },
             record.options
         );
+
+        return options;
     }
 
     function buildLabel(text) {
@@ -209,7 +217,6 @@
 
     function addNode(id) {
         nodesOnThePage.add({id:id, label:id, shape: 'box'});
-        console.log(id);
     }
 
     startNetwork(getData);
