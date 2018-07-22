@@ -274,10 +274,21 @@
     var attemptToSetUpVoiceCommunication = function(action) {
         artyom = new Artyom();
 
+        var active = false;
+
         var listenForRecollectCommands = {
             smart: true,
-            indexes: ["recollect *"],
-            action: action
+            indexes: ["listen *", "stop listening *"],
+            action: function (i, value) {
+                if (i == 0) {
+                    console.log("I'm listening");
+                    active = true;
+                } else if (i == 1) {
+                    console.log("I'm not listening");
+                    active = false;
+                }
+                if (active == false) return;
+            }
         };
 
         artyom.addCommands(listenForRecollectCommands);
