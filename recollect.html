@@ -3,7 +3,7 @@
 <head>
     <title>Network | Dynamic Data</title>
     <script src="underscore-min.js" type="text/javascript"></script>
-    <script src="vis.min.js" type="text/javascript"></script>
+    <script src="vis.js" type="text/javascript"></script>
     <script src="jquery-3.3.1.min.js" type="text/javascript"></script>
     <script src="store.everything.min.js" type="text/javascript"></script>
     <script src="artyom.window.js" type="text/javascript"></script>
@@ -12,10 +12,6 @@
 </head>
 
 <input id="recollect-text-input" type="text" value="" placeholder="(re)collect...">
-<div class="btn-group">
-    <button id="all-connections-button">All Connections</button>
-    <button id="blank-slate-button">Blank Slate</button>
-</div>
 <br style="clear: both;" />
 <div id="recollect-input" class="network"></div>
 
@@ -251,10 +247,29 @@
                 },
                 "maxVelocity": 8,
                 "minVelocity": 0.75
+            },
+            locale: 'recollect',
+            locales: {
+              recollect: {
+                edit: 'Edit',
+                del: 'Delete selected',
+                back: 'Back',
+                addNode: 'Blank Slate',
+                addEdge: 'Associations',
+                editNode: 'Edit Node',
+                editEdge: 'Edit Edge',
+                addDescription: 'Click in an empty space to place a new node.',
+                edgeDescription: 'Click on a node and drag the edge to another node to connect them.',
+                editEdgeDescription: 'Click on the control points and drag them to a node to connect to it.',
+                createEdgeError: 'Cannot link edges to a cluster.',
+                deleteClusterError: 'Clusters cannot be deleted.',
+                editClusterError: 'Clusters cannot be edited.'
+              }
             }
         };
 
         inputNetwork = new vis.Network(inputContainer, data, options);
+        inputNetwork.enableEditMode();
     }
 
     var clusters = [];
