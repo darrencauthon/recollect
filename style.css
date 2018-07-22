@@ -17,10 +17,11 @@ body {
   float: left;
   clear: left;
   border: 1px solid #616161;
-  width: calc(50vw - 1rem);
+  width: calc(100vw - 1rem);
   text-align: center;
   height: 8rem;
   font-size: 5rem;
+  color: blue;
 }
 
 .btn-group {
