@@ -263,6 +263,10 @@
         nodesOnThePage.add({id:id, label:id, shape: 'box'});
     }
 
+    function addRelationship(from, to) {
+        relationshipsOnThePage.add({from:from, to: to});
+    }
+
     startNetwork(getData);
 
     var attemptToSetUpVoiceCommunicationQuietly = function (actions) {
@@ -288,6 +292,8 @@
                     active = false;
                 }
                 if (active == false) return;
+
+                console.log(value);
 
                 if (i == 2) {
                     console.log('adding ' + value);
@@ -322,7 +328,12 @@
         add: function (i, value) {
             $("#newThing").val(value);
             addNode(value);
-        }
+        },
+        connect: function (i, value) {
+            //darren
+            console.log(value);
+            //relationshipsOnThePage.add({})
+        },
     });
 
     //function changeNode1() {
