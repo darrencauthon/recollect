@@ -1,5 +1,13 @@
 var newColor = 'orange';
 $(document).ready(() => {
+  inputNetwork.on('click', function (params) {
+    if(params.nodes.length > 0) {
+      var nodeId = params.nodes[0];
+      contractTextForAllNodes();
+      expandTextForNode(nodeId);
+    }
+  });
+
   $('#recollect-text-input, #newThing').keyup((el) => {
     const searchTerm = $(el.target).val().toLowerCase();
     highlightNodes(searchTerm);
@@ -24,6 +32,26 @@ $(document).ready(() => {
     }
   });
 });
+
+function expandTextForNode(nodeId) {
+  nodesOnThePage.update([
+    {
+      id: nodeId,
+      label: findRecordById(nodeId).id
+    }
+  ]);
+}
+
+function contractTextForAllNodes() {
+  _.each(getAllData().records, record => {
+    nodesOnThePage.update([
+      {
+        id: record.id,
+        label: buildLabel(record.id),
+      }
+    ]);
+  });
+}
 
 function bringForward(searchTerm) {
   _.each(nodesOnThePage._data, node => {
@@ -87,6 +115,11 @@ function findMatchingNodeIds(searchTerm) {
 
   return nodeIdsToUpdate;
 }
+
+function findRecordById(id) {
+  return _.find(getAllData().records, record => record.id === id);
+}
+
 
 function highlightNodes(searchTerm) {
   var nodeIdsToUpdate = findMatchingNodeIds(searchTerm);
