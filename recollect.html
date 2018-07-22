@@ -279,21 +279,43 @@
         nodesOnThePage.add({id:id, label:id, shape: 'box'});
     }
 
+    function addRelationship(from, to) {
+        relationshipsOnThePage.add({from:from, to: to});
+    }
+
     startNetwork(getData);
 
-    var attemptToSetUpVoiceCommunicationQuietly = function (action) {
+    var attemptToSetUpVoiceCommunicationQuietly = function (actions) {
         try {
-            attemptToSetUpVoiceCommunication(action);
+            attemptToSetUpVoiceCommunication(actions);
         } catch (error) {}
     }
 
-    var attemptToSetUpVoiceCommunication = function(action) {
+    var attemptToSetUpVoiceCommunication = function(actions) {
         artyom = new Artyom();
+
+        var active = false;
 
         var listenForRecollectCommands = {
             smart: true,
-            indexes: ["recollect *"],
-            action: action
+            indexes: ["listen *", "stop listening *"],
+            action: function (i, value) {
+                if (i == 0) {
+                    console.log("I'm listening");
+                    active = true;
+                } else if (i == 1) {
+                    console.log("I'm not listening");
+                    active = false;
+                }
+                if (active == false) return;
+
+                console.log(value);
+
+                if (i == 2) {
+                    console.log('adding ' + value);
+                    actions.add(i, value);
+                }
+            }
         };
 
         artyom.addCommands(listenForRecollectCommands);
@@ -318,9 +340,16 @@
         startContinuousArtyom();
     }
 
-    attemptToSetUpVoiceCommunication(function(i, value) {
-        $("#newThing").val(value);
-        addNode(value);
+    attemptToSetUpVoiceCommunication({
+        add: function (i, value) {
+            $("#newThing").val(value);
+            addNode(value);
+        },
+        connect: function (i, value) {
+            //darren
+            console.log(value);
+            //relationshipsOnThePage.add({})
+        },
     });
 
     //function changeNode1() {
