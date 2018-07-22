@@ -273,6 +273,23 @@
         saveAllDataOnThePage();
     }
 
+    function removeRelationship(from, to) {
+        var relationshipsToRemove = [];
+        for (var i = 0; i < relationshipsOnThePage.length; i++) {
+            var relationship = relationshipsOnThePage[i];
+            if (relationship.from.toLowerCase() == from.toLowerCase() && relationship.to.toLowerCase() == to.ToLower())
+                relationshipsToRemove.push(relationship);
+            else if (relationship.to.toLowerCase() == from.toLowerCase() && relationship.from.toLowerCase() == to.ToLower())
+                relationshipsToRemove.push(relationship);
+        }
+        for (var i = 0; i < relationshipsToRemove.length; i++) {
+            var relationship = relationshipsToRemove[i];
+            relationshipsOnThePage.remove(relationship.id);
+        }
+
+        saveAllDataOnThePage();
+    }
+
     startNetwork(getData);
 
     var attemptToSetUpVoiceCommunicationQuietly = function (actions) {
@@ -288,7 +305,7 @@
 
         var listenForRecollectCommands = {
             smart: true,
-            indexes: ["listen *", "stop listening *", "add *", "connect *", "recollect *"],
+            indexes: ["listen *", "stop listening *", "add *", "connect *", "recollect *", "disconnect *"],
             action: function (i, value) {
                 if (i == 0) {
                     console.log("I'm listening");
@@ -308,8 +325,10 @@
                 } else if (i == 4) {
                     console.log('recollecting ' + value);
                     actions.recollect(i, value);
+                }  else if (i == 5) {
+                    console.log('disconnecting ' + value);
+                    actions.disconnect(i, value);
                 }
-
             }
         };
 
@@ -367,7 +386,13 @@
         recollect: function (i, value) {
             $("#recollect-text-input").val(value);
             bringForward(value);
-        }
+        },
+        disconnect: function (i, value) {
+            var params = value.split(' from ');
+            if (params.length == 2) {
+                removeRelationship(params[0], params[1]);
+            }
+        },
     });
 
     //function changeNode1() {
