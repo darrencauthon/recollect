@@ -89,16 +89,16 @@ function bringForward(searchTerm) {
   const recordsLinkedBySkippingOne = findRecordsLinkedToThese(recordsLinkedDirectly);
 
   _.each(exactRecordMatches, record => {
-    record.options = { color: { background: 'dark blue' } };
+    record.options = { color: { background: FIRST_LEVEL_BG_COLOR_CODE }, font: { color: FIRST_LEVEL_FG_COLOR_CODE } };
     addRecordToNodesOnThePage(record);
   });
   _.each(recordsLinkedDirectly, record => {
-    record.options = { color: { background: 'orange' } };
+    record.options = { color: { background: SECOND_LEVEL_BG_COLOR_CODE }, font: { color: SECOND_LEVEL_FG_COLOR_CODE } };
     addRecordToNodesOnThePage(record);
   });
 
   _.each(recordsLinkedBySkippingOne, record => {
-    record.options = { color: { background: 'yellow' } };
+    record.options = { color: { background: THIRD_LEVEL_BG_COLOR_CODE }, font: { color: THIRD_LEVEL_FG_COLOR_CODE } };
     addRecordToNodesOnThePage(record);
   });
 
